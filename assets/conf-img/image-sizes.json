@@ -1,0 +1,17 @@
+[
+    {
+        "small": [],
+        "img-337-110":
+                {
+                    "width": "337",
+                    "height": "110",
+                    "crop": true
+                },
+        "img-674-220":
+                {
+                    "width": "674",
+                    "height": "220",
+                    "crop": true
+                }
+    }
+]
