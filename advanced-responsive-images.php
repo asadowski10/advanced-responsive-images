@@ -40,7 +40,9 @@ define( 'ARI_VIEWS_FOLDER_NAME', 'ari' );
 
 
 define( 'ARI_JSON_DIR', WP_CONTENT_DIR . '/assets/conf-img/' );
-define( 'ARI_MODE', '' );
+if ( ! defined( 'ARI_MODE' ) ) {
+	define( 'ARI_MODE', 'srcset' );
+}
 
 // Plugin URL and PATH
 define( 'ARI_URL', plugin_dir_url( __FILE__ ) );
