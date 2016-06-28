@@ -1,6 +1,8 @@
 <?php
 namespace ARI;
 
+use ARI\Modes\Lazysize;
+
 /**
  * The purpose of the modes class is to return the final render
  *
@@ -18,19 +20,35 @@ class Modes {
 	}
 
 	/**
-	 * @return \ARI\Mode
+	 * @return \ARI\Modes
 	 */
-	public static function get_render( $mode ) {
+	public function get_mode( $args ) {
+		$mode = ARI_MODE;
+		if ( isset( $args['data-mode'] ) && ! empty( $args['data-mode'] ) ) {
+			$mode = $args['data-mode'];
+		}
+
 		switch ( $mode ) {
 			case 'srcset':
 				return '';
 				break;
 			case 'lazysize':
+				/**
+				 * @var $lazy Lazysize
+				 */
+				$lazy = \ARI\Modes\Lazysize::get_instance();
+				$lazy->set_args( $args );
+
+				return $lazy;
+				break;
+			case 'picture':
 				return '';
 				break;
-			case 'lazysize':
-				return '';
+			case 'picture_lazyload':
+				return ''; // return render();
 				break;
+			default:
+				throw new \Exception( sprintf( '%s post type does not match model post type %s', get_post_type( $object ), $this->post_type ) );
 		}
 	}
 
