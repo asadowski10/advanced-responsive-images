@@ -1,5 +1,5 @@
 <?php
-namespace ARI;
+namespace ARI\I;
 
 /**
  *
@@ -7,5 +7,11 @@ namespace ARI;
  * @package ARI
  */
 interface Mode {
-	public function render_image( $location );
+	public function render_image();
+
+	public function add_filters();
+
+	public function set_args( $args );
+
+	public function set_attachment_id( $id );
 }
