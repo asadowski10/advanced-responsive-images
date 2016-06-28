@@ -2,10 +2,10 @@
 namespace ARI\Modes;
 
 /**
- * Abstract Class Main
+ * Abstract Class Mode
  * @package ARI\Modes
  */
-abstract class Main {
+abstract class Mode {
 	/**
 	 * Use the trait
 	 */

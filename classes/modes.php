@@ -36,7 +36,7 @@ class Modes {
 				/**
 				 * @var $lazy Lazysize
 				 */
-				$lazy = \ARI\Modes\Lazysize::get_instance();
+				$lazy = Lazysize::get_instance();
 				$lazy->set_args( $args );
 
 				return $lazy;

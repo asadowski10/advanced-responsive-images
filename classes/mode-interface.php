@@ -1,12 +1,12 @@
 <?php
-namespace ARI\I;
+namespace ARI;
 
 /**
  *
  * Interface Mode
  * @package ARI
  */
-interface Mode {
+interface Mode_Interface {
 	public function render_image();
 
 	public function add_filters();

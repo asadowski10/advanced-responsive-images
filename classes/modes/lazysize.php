@@ -1,8 +1,7 @@
 <?php
 namespace ARI\Modes;
 
-use ARI\Modes\Main;
-use ARI\I\Mode;
+use ARI\Mode_Interface;
 use ARI\Image_Locations;
 use ARI\Image_Sizes;
 
@@ -10,12 +9,7 @@ use ARI\Image_Sizes;
  * Abstract Class Lazysize
  * @package ARI\Modes
  */
-class Lazysize extends Main implements Mode {
-
-	/**
-	 * Use the trait
-	 */
-	use \ARI\Singleton;
+class Lazysize extends Mode implements Mode_Interface {
 
 	/**
 	 * @var []
