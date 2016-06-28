@@ -11,10 +11,12 @@ abstract class Main {
 	 */
 	use \ARI\Singleton;
 
+	/**
+	 * @var int
+	 */
+	protected static $priority = 12;
+
 	protected function init() {	}
 
-	abstract public function get_locations();
-
-	abstract public function get_location();
 
 }
