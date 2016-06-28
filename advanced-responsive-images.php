@@ -39,7 +39,7 @@ define( 'ARI_MIN_PHP_VERSION', '5.4' );
 define( 'ARI_VIEWS_FOLDER_NAME', 'ari' );
 
 
-define( 'ARI_JSON_DIR', WP_CONTENT_DIR . '/assets/conf-img/' );
+define( 'ARI_JSON_DIR', get_template_directory() . '/assets/conf-img/' );
 if ( ! defined( 'ARI_MODE' ) ) {
 	define( 'ARI_MODE', 'srcset' );
 }
