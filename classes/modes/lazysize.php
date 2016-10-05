@@ -79,6 +79,9 @@ class Lazysize extends Mode implements Mode_Interface {
 					continue;
 				}
 
+				// Verif SSL
+				$img[0] = ( function_exists( 'is_ssl' ) && is_ssl() ) ? str_replace( 'http://', 'https://', $img[0] ) : $img[0];
+
 				if ( isset( $location->class ) && ! empty( $location->class ) ) {
 					$this->args['class'] = $this->args['class'] . ' ' . $location->class;
 				}
