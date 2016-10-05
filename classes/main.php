@@ -35,6 +35,18 @@ class Main {
 	}
 
 	/**
+	 * Remove the thumbnail dimensions on images
+	 *
+	 * @param string : the html of the image
+	 *
+	 * @return string : the removed width/height attributres
+	 * @author Nicolas Juen
+	 */
+	public static function remove_thumbnail_dimensions( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		return preg_replace( '/(width|height)=\"\d*\"\s/', "", $html );
+	}
+
+	/**
 	 * Load the plugin translation
 	 */
 	public static function init_translations() {
