@@ -30,8 +30,7 @@ class Modes {
 
 		switch ( $mode ) {
 			case 'srcset':
-				return '';
-				break;
+				return false;
 			case 'lazysize':
 				/**
 				 * @var $lazy Lazysize
@@ -40,15 +39,12 @@ class Modes {
 				$lazy->set_args( $args );
 
 				return $lazy;
-				break;
 			case 'picture':
-				return '';
-				break;
+				return false;
 			case 'picture_lazyload':
-				return ''; // return render();
-				break;
+				return false;
 			default:
-				throw new \Exception( sprintf( '%s post type does not match model post type %s', get_post_type( $object ), $this->post_type ) );
+				return false;
 		}
 	}
 
