@@ -2,6 +2,7 @@
 namespace ARI;
 
 use ARI\Modes\Lazysize;
+use ARI\Modes\Srcset;
 
 /**
  * The purpose of the modes class is to return the final render
@@ -30,7 +31,13 @@ class Modes {
 
 		switch ( $mode ) {
 			case 'srcset':
-				return false;
+				/**
+				 * @var $srcset Srcset
+				 */
+				$srcset = Srcset::get_instance();
+				$srcset->set_args( $args );
+
+				return $srcset;
 			case 'lazysize':
 				/**
 				 * @var $lazy Lazysize
