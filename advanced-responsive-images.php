@@ -38,8 +38,10 @@ define( 'ARI_VERSION', '1.0.0' );
 define( 'ARI_MIN_PHP_VERSION', '5.4' );
 define( 'ARI_VIEWS_FOLDER_NAME', 'ari' );
 
+if ( ! defined( 'ARI_JSON_DIR' ) ) {
+	define( 'ARI_JSON_DIR', get_template_directory() . '/assets/conf-img/' );
+}
 
-define( 'ARI_JSON_DIR', get_template_directory() . '/assets/conf-img/' );
 if ( ! defined( 'ARI_MODE' ) ) {
 	define( 'ARI_MODE', 'srcset' );
 }
