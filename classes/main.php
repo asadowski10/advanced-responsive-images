@@ -24,6 +24,7 @@ class Main {
 	protected function init() {
 		add_action( 'init', array( $this, 'init_translations' ) );
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'get_attributes' ), 10, 2 );
+
 		// Override the calculated image sizes
 		add_filter( 'wp_calculate_image_sizes', '__return_false', PHP_INT_MAX );
 
@@ -64,6 +65,7 @@ class Main {
 	public function get_attributes( $args = array(), \WP_Post $attachment ) {
 		if ( ! isset( $args['data-location'] ) ) {
 			$args['data-location'] = 'No location filled in';
+
 			return $args;
 		}
 
@@ -74,6 +76,7 @@ class Main {
 		$location_array = $locations->get_location( $args['data-location'] );
 		if ( empty( $location_array ) ) {
 			$args['data-location'] = 'No location found in source file';
+
 			return $args;
 		}
 
@@ -83,6 +86,9 @@ class Main {
 		$mode = Modes::get_instance();
 		try {
 			$_mode_instance = $mode->get_mode( $args );
+			if ( false === $_mode_instance ) {
+				return $args;
+			}
 			$_mode_instance->set_attachment_id( $attachment->ID );
 			$_mode_instance->add_filters();
 		} catch ( \Exception $e ) {
@@ -91,5 +97,4 @@ class Main {
 
 		return $args;
 	}
-
 }
