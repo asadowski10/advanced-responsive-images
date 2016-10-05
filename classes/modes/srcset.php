@@ -76,6 +76,9 @@ class Srcset extends Mode implements Mode_Interface {
 					continue;
 				}
 
+				// Verif SSL
+				$img[0] = ( function_exists( 'is_ssl' ) && is_ssl() ) ? str_replace( 'http://', 'https://', $img[0] ) : $img[0];
+
 				if ( isset( $location->class ) && ! empty( $location->class ) ) {
 					$this->args['class'] = $this->args['class'] . ' ' . $location->class;
 				}
@@ -95,6 +98,8 @@ class Srcset extends Mode implements Mode_Interface {
 	 */
 	public function add_filters() {
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'get_attributes' ), self::$priority, 2 );
+		add_filter( 'post_thumbnail_html', array( $this, 'default_img' ), self::$priority, 5 );
+		add_filter( 'post_thumbnail_html', array( 'ARI\Main', 'remove_thumbnail_dimensions' ), self::$priority, 5 );
 		self::$priority ++;
 	}
 
@@ -113,4 +118,51 @@ class Srcset extends Mode implements Mode_Interface {
 		return $this->render_image();
 	}
 
+	/**
+	 * Display default img if empty post_thumbnail
+	 *
+	 * @param $html
+	 * @param $post_id
+	 * @param $post_thumbnail_id
+	 * @param $size
+	 * @param $attr
+	 *
+	 * @return string
+	 * @author Alexandre Sadowski
+	 */
+	public function default_img( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( ! empty( $html ) ) {
+			return $html;
+		}
+
+		if ( ! isset( $this->args['data-location'] ) ) {
+			return $html;
+		}
+
+		/**
+		 * @var $locations Image_Locations
+		 */
+		$locations      = Image_Locations::get_instance();
+		$location_array = $locations->get_location( $this->args['data-location'] );
+		if ( empty( $location_array ) ) {
+			return $html;
+		}
+
+		$location_array = array_shift( $location_array );
+		if ( ! isset( $location_array->default_img ) || empty( $location_array->default_img ) ) {
+			return $html;
+		}
+
+		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $attr );
+		$img_path     = $default_path . $location_array->default_img;
+
+		if ( ! is_file( get_stylesheet_directory() . $img_path ) ) {
+			return $html;
+		}
+
+		$classes = array( 'attachment-thumbnail', 'wp-post-image' );
+		$classes[] = isset( $attr['class'] ) ? $attr['class'] : '';
+
+		return '<img src="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
+	}
 }
