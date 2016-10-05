@@ -102,7 +102,7 @@ class Lazysize extends Mode implements Mode_Interface {
 	 */
 	public function add_filters() {
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'get_attributes' ), self::$priority, 2 );
-		add_filter( 'post_thumbnail_html', array( $this, 'bea_default_img' ), self::$priority, 5 );
+		add_filter( 'post_thumbnail_html', array( $this, 'default_img' ), self::$priority, 5 );
 		add_filter( 'post_thumbnail_html', array( 'ARI\Main', 'remove_thumbnail_dimensions' ), self::$priority, 5 );
 		self::$priority ++;
 	}
@@ -134,7 +134,7 @@ class Lazysize extends Mode implements Mode_Interface {
 	 * @return string
 	 * @author Alexandre Sadowski
 	 */
-	public function bea_default_img( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+	public function default_img( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
 		if ( ! empty( $html ) ) {
 			return $html;
 		}
@@ -157,7 +157,7 @@ class Lazysize extends Mode implements Mode_Interface {
 			return $html;
 		}
 
-		$default_path = apply_filters( 'bea_responsive_image_default_img_path', '/assets/img/default/', $attr );
+		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $attr );
 		$img_path     = $default_path . $location_array->default_img;
 
 		if ( ! is_file( get_stylesheet_directory() . $img_path ) ) {
