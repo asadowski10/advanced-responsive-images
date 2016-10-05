@@ -100,6 +100,7 @@ class Lazysize extends Mode implements Mode_Interface {
 	public function add_filters() {
 		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'get_attributes' ), self::$priority, 2 );
 		add_filter( 'post_thumbnail_html', array( $this, 'bea_default_img' ), self::$priority, 5 );
+		add_filter( 'post_thumbnail_html', array( 'ARI\Main', 'remove_thumbnail_dimensions' ), self::$priority, 5 );
 		self::$priority ++;
 	}
 
@@ -164,6 +165,7 @@ class Lazysize extends Mode implements Mode_Interface {
 		$classes[] = isset( $attr['class'] ) ? $attr['class'] : '';
 
 		$classes[] = 'lazyload';
+
 		return '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
 	}
 
