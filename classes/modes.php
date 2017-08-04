@@ -3,6 +3,7 @@ namespace ARI;
 
 use ARI\Modes\Lazysize;
 use ARI\Modes\Srcset;
+use ARI\Modes\Picture_Lazyload;
 
 /**
  * The purpose of the modes class is to return the final render
@@ -21,7 +22,7 @@ class Modes {
 	}
 
 	/**
-	 * @return \ARI\Modes
+	 * @return \ARI\Modes\Mode
 	 */
 	public function get_mode( $args ) {
 		$mode = ARI_MODE;
@@ -49,7 +50,13 @@ class Modes {
 			case 'picture':
 				return false;
 			case 'picture_lazyload':
-				return false;
+				/**
+				 * @var $picture_lazyload Picture_Lazyload
+				 */
+				$picture_lazyload = Picture_Lazyload::get_instance();
+				$picture_lazyload->set_args( $args );
+
+				return $picture_lazyload;
 			default:
 				return false;
 		}
