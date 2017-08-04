@@ -7,7 +7,7 @@ namespace ARI;
  * @package ARI
  */
 interface Mode_Interface {
-	public function render_image();
+	public function render_image( $html = '' );
 
 	public function add_filters();
 
