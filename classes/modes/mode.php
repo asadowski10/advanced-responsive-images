@@ -90,7 +90,7 @@ abstract class Mode {
 	 * @return string
 	 */
 	protected function get_timthumb_url( $path_img, $image_size = null ) {
-		if ( ! empty( $image_size ) ) {
+		if ( ! empty( $image_size ) && isset( $image_size['width'] ) ) {
 			return get_full_url( $_SERVER, true ) . 'functions/vendor/timthumb.php?src=' . $path_img . '&h=' . $image_size['height'] . '&w=' . $image_size['width'] . '&zc=' . (int) $image_size['crop'];
 		} else {
 			return get_full_url( $_SERVER, true ) . 'functions/vendor/timthumb.php?src=' . $path_img;
