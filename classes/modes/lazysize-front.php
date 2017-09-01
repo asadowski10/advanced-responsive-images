@@ -7,18 +7,24 @@ use ARI\Image_Locations;
 use ARI\Image_Sizes;
 
 /**
- * Abstract Class SRCSET
+ * Abstract Class Lazysize
  * @package ARI\Modes
  */
-class Srcset_Front extends Mode implements Mode_Interface {
+class Lazysize_Front extends Mode implements Mode_Interface {
 
 	/**
 	 * @var []
 	 */
 	private $args = array();
 
+	/**
+	 * @var int
+	 */
 	private $attachment_id = 0;
 
+	/**
+	 * @var string
+	 */
 	private $size_or_img_name = '';
 
 	/**
@@ -69,8 +75,9 @@ class Srcset_Front extends Mode implements Mode_Interface {
 
 			return;
 		} else {
-			$img_size = Image_Sizes::get_instance();
-
+			// add lazyload on all medias
+			$this->args['class'] = $this->args['class'] . ' lazyload';
+			$img_size            = Image_Sizes::get_instance();
 			foreach ( $location_array->srcsets as $location ) {
 				if ( ! isset( $location->size ) || empty( $location->size ) ) {
 					continue;
@@ -94,12 +101,13 @@ class Srcset_Front extends Mode implements Mode_Interface {
 		}
 
 		if ( ! empty( $srcset_attrs ) ) {
-			$this->args['srcset'] = implode( ', ', $srcset_attrs );
-		}
-
-		$src = $this->front_default_img( $location_array, $this->size_or_img_name );
-		if ( ! empty( $src ) ) {
-			$this->args['src'] = htmlspecialchars_decode( $src );
+			$this->args['data-srcset'] = implode( ', ', $srcset_attrs );
+			$this->args['src']         = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+		} else {
+			$src = $this->front_default_img( $location_array, $this->size_or_img_name );
+			if ( ! empty( $src ) ) {
+				$this->args['src'] = htmlspecialchars_decode( $src );
+			}
 		}
 
 		// Write HTML
