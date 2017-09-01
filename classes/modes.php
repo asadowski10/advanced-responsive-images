@@ -6,6 +6,7 @@ use ARI\Modes\Lazysize;
 use ARI\Modes\Srcset;
 use ARI\Modes\Srcset_Front;
 use ARI\Modes\Picture_Lazyload;
+use ARI\Modes\Picture_Lazyload_Front;
 
 /**
  * The purpose of the modes class is to return the final render
@@ -71,6 +72,14 @@ class Modes {
 				$picture_lazyload->set_args( $args );
 
 				return $picture_lazyload;
+			case 'picture_lazyload_front':
+				/**
+				 * @var $picture_lazyload Picture_Lazyload_Front
+				 */
+				$picture_lazyload_front = Picture_Lazyload_Front::get_instance();
+				$picture_lazyload_front->set_args( $args );
+
+				return $picture_lazyload_front;
 			default:
 				return false;
 		}
