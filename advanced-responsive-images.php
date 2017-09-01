@@ -50,6 +50,10 @@ if ( ! defined( 'ARI_PIXEL' ) ) {
 	define( 'ARI_PIXEL', 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' );
 }
 
+if ( ! defined( 'ARI_CONTEXT' ) ) {
+	define( 'ARI_CONTEXT', 'back' );
+}
+
 // Plugin URL and PATH
 define( 'ARI_URL', plugin_dir_url( __FILE__ ) );
 define( 'ARI_DIR', plugin_dir_path( __FILE__ ) );
