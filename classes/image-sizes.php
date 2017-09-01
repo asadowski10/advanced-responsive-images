@@ -1,4 +1,5 @@
 <?php
+
 namespace ARI;
 
 /**
@@ -12,6 +13,8 @@ class Image_Sizes {
 	 * Use the trait
 	 */
 	use Singleton;
+
+	public static $allowed_ext = array( '.jpg', '.gif', '.png', 'jpeg' );
 
 	private $image_sizes;
 
