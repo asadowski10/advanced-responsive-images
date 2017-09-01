@@ -1,8 +1,10 @@
 <?php
+
 namespace ARI;
 
 use ARI\Modes\Lazysize;
 use ARI\Modes\Srcset;
+use ARI\Modes\Srcset_Front;
 use ARI\Modes\Picture_Lazyload;
 
 /**
@@ -30,12 +32,24 @@ class Modes {
 			$mode = $args['data-mode'];
 		}
 
+		if ( defined( 'ARI_CONTEXT' ) && 'front' === ARI_CONTEXT ) {
+			$mode = $mode . '_front';
+		}
+
 		switch ( $mode ) {
 			case 'srcset':
 				/**
 				 * @var $srcset Srcset
 				 */
 				$srcset = Srcset::get_instance();
+				$srcset->set_args( $args );
+
+				return $srcset;
+			case 'srcset_front':
+				/**
+				 * @var $srcset Srcset
+				 */
+				$srcset = Srcset_Front::get_instance();
 				$srcset->set_args( $args );
 
 				return $srcset;
