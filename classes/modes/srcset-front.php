@@ -67,6 +67,8 @@ class Srcset_Front extends Mode implements Mode_Interface {
 		if ( ! isset( $location_array->srcsets ) || empty( $location_array->srcsets ) ) {
 			$this->args['data-location'] = 'No srcsets found or not V2 JSON';
 		} else {
+			$img_size = Image_Sizes::get_instance();
+
 			foreach ( $location_array->srcsets as $location ) {
 				if ( ! isset( $location->size ) || empty( $location->size ) ) {
 					continue;
@@ -74,8 +76,7 @@ class Srcset_Front extends Mode implements Mode_Interface {
 				/**
 				 * @var $img_size Image_Sizes
 				 */
-				$img_size = Image_Sizes::get_instance();
-				$img_url  = $this->get_attachment_image_src( $this->size_or_img_name, (array) $img_size->get_image_size( $location->size ) );
+				$img_url = $this->get_attachment_image_src( $this->size_or_img_name, (array) $img_size->get_image_size( $location->size ) );
 				if ( empty( $img_url ) ) {
 					continue;
 				}
