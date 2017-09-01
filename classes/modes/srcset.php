@@ -1,4 +1,5 @@
 <?php
+
 namespace ARI\Modes;
 
 use ARI\Mode_Interface;
@@ -46,7 +47,7 @@ class Srcset extends Mode implements Mode_Interface {
 	 *
 	 * @author Alexandre Sadowski
 	 */
-	public function render_image() {
+	public function render_image( $html = '' ) {
 		/**
 		 * @var $locations Image_Locations
 		 */
@@ -160,7 +161,7 @@ class Srcset extends Mode implements Mode_Interface {
 			return $html;
 		}
 
-		$classes = array( 'attachment-thumbnail', 'wp-post-image' );
+		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
 		$classes[] = isset( $attr['class'] ) ? $attr['class'] : '';
 
 		return '<img src="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';

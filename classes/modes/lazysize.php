@@ -46,7 +46,7 @@ class Lazysize extends Mode implements Mode_Interface {
 	 *
 	 * @author Alexandre Sadowski
 	 */
-	public function render_image() {
+	public function render_image( $html = '' ) {
 		/**
 		 * @var $locations Image_Locations
 		 */
