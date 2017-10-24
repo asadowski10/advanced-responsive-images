@@ -1,0 +1,27 @@
+{
+  "name": "asadowski10/advanced-responsive-images",
+  "description": "WordPress plugin to implement responsive images with picturefill.",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "keywords": [
+    "responsive",
+    "picture",
+    "picturefill",
+    "plugin",
+    "images"
+  ],
+  "authors": [
+    {
+      "name": "Alexandre Sadowski",
+      "homepage": "https://twitter.com/Alex_Sadowski",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/asadowski10/advanced-responsive-images/issues",
+    "source": "https://github.com/asadowski10/advanced-responsive-images"
+  },
+  "require": {
+    "php": ">=5.4"
+  }
+}
