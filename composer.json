@@ -27,7 +27,7 @@
       "url": "https://wpackagist.org"
     },
     {
-      "type": "composer",
+      "type": "vcs",
       "url": "https://github.com/BeAPI/bea-wp-thumb/"
     }
   ],
