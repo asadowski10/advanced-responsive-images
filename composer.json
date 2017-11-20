@@ -21,20 +21,12 @@
     "issues": "https://github.com/asadowski10/advanced-responsive-images/issues",
     "source": "https://github.com/asadowski10/advanced-responsive-images/"
   },
-  "repositories": [
-    {
-      "type": "composer",
-      "url": "https://wpackagist.org"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/BeAPI/bea-wp-thumb/"
-    }
-  ],
   "require": {
-    "composer/installers" : "~1.0",
-    "php": ">=5.4",
-    "wpackagist-plugin/wp-thumb": "0.10",
-    "bea/bea-wp-thumb": "1.0.2"
+    "composer/installers": "~1.0",
+    "php": ">=5.4"
+  },
+  "suggest": {
+    "wpackagist-plugin/wp-thumb": "Images generation : automatic images resizing, cropping and caching.",
+    "bea/bea-wp-thumb": "Prevents images generation : remove WordPress image generation on media upload"
   }
 }
