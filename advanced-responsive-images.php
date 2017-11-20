@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: Advanced Responsive Images
- Version: 1.0.0
+ Version: 2.0.1
  Plugin URI: http://www.beapi.fr
  Description: Your plugin description
  Author: BE API Technical team
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants
-define( 'ARI_VERSION', '1.0.0' );
+define( 'ARI_VERSION', '2.0.1' );
 define( 'ARI_MIN_PHP_VERSION', '5.4' );
 define( 'ARI_VIEWS_FOLDER_NAME', 'ari' );
 

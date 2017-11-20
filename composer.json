@@ -19,9 +19,22 @@
   ],
   "support": {
     "issues": "https://github.com/asadowski10/advanced-responsive-images/issues",
-    "source": "https://github.com/asadowski10/advanced-responsive-images"
+    "source": "https://github.com/asadowski10/advanced-responsive-images/"
   },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://wpackagist.org"
+    },
+    {
+      "type": "composer",
+      "url": "https://github.com/BeAPI/bea-wp-thumb/"
+    }
+  ],
   "require": {
-    "php": ">=5.4"
+    "composer/installers" : "~1.0",
+    "php": ">=5.4",
+    "wpackagist-plugin/wp-thumb": "0.10",
+    "bea/bea-wp-thumb": "1.0"
   }
 }
