@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.3 - 27 Nov 2017
+- Add bea_get_attachment_image() function
+- Add lazyload classes in picture lazyload mode
+
 ## 2.0.2 - 20 Nov 2017
 - Remove composer require plugins, use suggest
 
