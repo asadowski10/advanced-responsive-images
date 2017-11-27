@@ -64,6 +64,7 @@ add_action( 'plugins_loaded', 'init_advanced_responsive_images_plugin' );
  * Init the plugin
  */
 function init_advanced_responsive_images_plugin() {
+	require_once ARI_DIR . 'functions/utils.php';
 	// Client
 	\ARI\Main::get_instance();
 }
