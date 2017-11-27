@@ -101,7 +101,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$location_content = $check_tpl['location_content'];
 		$main_content     = $check_tpl['main_content'];
 
-		$classes        = array( $this->args['classes'] );
+		$classes        = isset( $this->args['classes'] ) ? array( $this->args['classes'] ) : [];
 		$location_array = reset( $location_array );
 		foreach ( $location_array->srcsets as $location ) {
 			if ( ! isset( $location->size ) || empty( $location->size ) ) {
@@ -145,7 +145,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$alt     = trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
 		$classes = implode( ' ', $classes );
 
-		$attributes              = 'class="' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
+		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all

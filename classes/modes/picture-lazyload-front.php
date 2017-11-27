@@ -133,7 +133,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		// Add all attributes : classes, alt...
 		$classes = implode( ' ', $classes );
 
-		$attributes              = 'class="' . esc_attr( $classes ) . '"';
+		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
