@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: Advanced Responsive Images
- Version: 2.0.3
+ Version: 2.0.4
  Plugin URI: https://github.com/asadowski10/advanced-responsive-images
  Description: WordPress plugin to implement custom HTML markup for responsive images
  Author: Alexandre Sadowski
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Plugin constants
-define( 'ARI_VERSION', '2.0.3' );
+define( 'ARI_VERSION', '2.0.4' );
 define( 'ARI_MIN_PHP_VERSION', '5.4' );
 define( 'ARI_VIEWS_FOLDER_NAME', 'ari' );
 

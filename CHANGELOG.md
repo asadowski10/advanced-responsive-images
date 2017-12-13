@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.0.4 - 13 Dec 2017
+- Add no script image in Picture Lazyload Mode / Lazysize for SEO
+- Load default image if no post_thumbnail
+
 ## 2.0.3 - 27 Nov 2017
 - Add bea_get_attachment_image() function
 - Add lazyload classes in picture lazyload mode

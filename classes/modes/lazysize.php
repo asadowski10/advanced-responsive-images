@@ -169,7 +169,7 @@ class Lazysize extends Mode implements Mode_Interface {
 
 		$classes[] = 'lazyload';
 
-		return '<img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
+		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '"/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
 	}
 
 }

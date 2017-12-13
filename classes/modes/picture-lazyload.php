@@ -54,6 +54,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 */
 	public function add_filters() {
 		add_filter( 'post_thumbnail_html', array( $this, 'update_html' ), self::$priority, 5 );
+		add_filter( 'post_thumbnail_html', array( $this, 'default_img' ), self::$priority, 5 );
 		self::$priority ++;
 	}
 
@@ -71,6 +72,14 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 */
 	public function update_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
 		if ( ! isset( $this->args['data-location'] ) ) {
+			return $html;
+		}
+
+		if ( empty( $html ) ) {
+			return $html;
+		}
+
+		if ( empty( $post_thumbnail_id ) ) {
 			return $html;
 		}
 
@@ -198,5 +207,55 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		}
 
 		return array( 'location_content' => $location_content, 'main_content' => $main_content );
+	}
+
+	/**
+	 * Display default img if empty post_thumbnail
+	 *
+	 * @param $html
+	 * @param $post_id
+	 * @param $post_thumbnail_id
+	 * @param $size
+	 * @param $attr
+	 *
+	 * @return string
+	 * @author Alexandre Sadowski
+	 */
+	public function default_img( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( ! empty( $html ) ) {
+			return $html;
+		}
+
+		if ( ! isset( $this->args['data-location'] ) ) {
+			return $html;
+		}
+
+		/**
+		 * @var $locations Image_Locations
+		 */
+		$locations      = Image_Locations::get_instance();
+		$location_array = $locations->get_location( $this->args['data-location'] );
+		if ( empty( $location_array ) ) {
+			return $html;
+		}
+
+		$location_array = array_shift( $location_array );
+		if ( ! isset( $location_array->default_img ) || empty( $location_array->default_img ) ) {
+			return $html;
+		}
+
+		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $attr );
+		$img_path     = $default_path . $location_array->default_img;
+
+		if ( ! is_file( get_stylesheet_directory() . $img_path ) ) {
+			return $html;
+		}
+
+		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
+		$classes[] = isset( $attr['class'] ) ? $attr['class'] : '';
+
+		$classes[] = 'lazyload';
+
+		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '"/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
 	}
 }
