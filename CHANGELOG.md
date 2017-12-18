@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.0.5 - 18 Dec 2017
+- Check data-location exists on post_thumbnail_html filter
+
 ## 2.0.4 - 13 Dec 2017
 - Add no script image in Picture Lazyload Mode / Lazysize for SEO
 - Load default image if no post_thumbnail

@@ -71,6 +71,10 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @author Alexandre Sadowski
 	 */
 	public function update_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( ! isset( $attr['data-location'] ) ) {
+			return $html;
+		}
+
 		if ( ! isset( $this->args['data-location'] ) ) {
 			return $html;
 		}
