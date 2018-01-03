@@ -53,41 +53,6 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @author Alexandre Sadowski
 	 */
 	public function add_filters() {
-		add_filter( 'post_thumbnail_html', array( $this, 'update_html' ), self::$priority, 5 );
-		add_filter( 'post_thumbnail_html', array( $this, 'default_img' ), self::$priority, 5 );
-		self::$priority ++;
-	}
-
-	/**
-	 * Display default img if empty post_thumbnail
-	 *
-	 * @param $html
-	 * @param $post_id
-	 * @param $post_thumbnail_id
-	 * @param $size
-	 * @param $attr
-	 *
-	 * @return string
-	 * @author Alexandre Sadowski
-	 */
-	public function update_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-		if ( ! isset( $attr['data-location'] ) ) {
-			return $html;
-		}
-
-		if ( ! isset( $this->args['data-location'] ) ) {
-			return $html;
-		}
-
-		if ( empty( $html ) ) {
-			return $html;
-		}
-
-		if ( empty( $post_thumbnail_id ) ) {
-			return $html;
-		}
-
-		return $this->render_image( $html );
 	}
 
 	/**
@@ -96,6 +61,9 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @author Alexandre Sadowski
 	 */
 	public function render_image( $html = '' ) {
+		if ( empty( $html ) ) {
+			return $this->default_img( $html );
+		}
 		/**
 		 * @var $locations Image_Locations
 		 */
@@ -162,7 +130,10 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
-		return str_replace( '%%srcset%%', 'src="' . ARI_PIXEL . '"', $content_with_attributes );
+		return str_replace( [ '%%srcset%%', '%%srcgif%%' ], [
+			'srcset="' . ARI_PIXEL . '"',
+			'src="' . ARI_PIXEL . '"'
+		], $content_with_attributes );
 	}
 
 	/**
@@ -174,40 +145,40 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 */
 	private function check_tpl( $location_array, $html ) {
 		if ( ! is_array( $location_array ) ) {
-			return str_replace( '/>', 'data-error="No location found in source file" />', $html );
+			return $html . '<!-- data-error="No location found in source file" -->';
 		}
 
 		$location_array = reset( $location_array );
 		if ( ! isset( $location_array->srcsets ) || empty( $location_array->srcsets ) ) {
-			return str_replace( '/>', 'data-error="No srcsets found or not V2 JSON" />', $html );
+			return $html . '<!-- data-error="No srcsets found or not V2 JSON" -->';
 		}
 
 		//Check if default tpl is overloaded
-		if ( isset( $this->args['data-tpl'] ) && ! empty( $this->args['data-tpl'] ) ) {
+		if ( isset( $this->args['data - tpl'] ) && ! empty( $this->args['data - tpl'] ) ) {
 			$main_tpl = ARI_JSON_DIR . 'tpl/' . $this->args['data-tpl'] . '.tpl';
 		} else {
 			$main_tpl = ARI_JSON_DIR . 'tpl/default-picture.tpl';
 		}
 
 		if ( ! is_readable( $main_tpl ) ) {
-			return str_replace( '/>', 'data-error="Default tpl not exists or not readable" />', $html );
+			return $html . '<!-- data-error="Default tpl not exists or not readable" -->';
 		}
 
 		$main_content = file_get_contents( $main_tpl );
 		if ( empty( $main_content ) ) {
-			return str_replace( '/>', 'data-error="Empty default tpl" />', $html );
+			return $html . '<!-- data-error="Empty default tpl" -->';
 		}
 
 		//Check if default tpl is overloaded
 		$location_tpl = ARI_JSON_DIR . 'tpl/' . $this->args['data-location'] . '.tpl';
 
 		if ( ! is_readable( $location_tpl ) ) {
-			return str_replace( '/>', 'data-error="Location tpl not exists or not readable" />', $html );
+			return $html . '<!-- data-error="Location tpl not exists or not readable" -->';
 		}
 
 		$location_content = file_get_contents( $location_tpl );
 		if ( empty( $location_content ) ) {
-			return str_replace( '/>', 'data-error="Empty location tpl" />', $html );
+			return $html . '<!-- data-error="Empty location tpl" -->';
 		}
 
 		return array( 'location_content' => $location_content, 'main_content' => $main_content );
@@ -225,13 +196,9 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @return string
 	 * @author Alexandre Sadowski
 	 */
-	public function default_img( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-		if ( ! empty( $html ) ) {
-			return $html;
-		}
-
+	public function default_img( $html = '' ) {
 		if ( ! isset( $this->args['data-location'] ) ) {
-			return $html;
+			return $html . '<!-- data-error="No data-location found in default_img" -->';
 		}
 
 		/**
@@ -240,26 +207,26 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$locations      = Image_Locations::get_instance();
 		$location_array = $locations->get_location( $this->args['data-location'] );
 		if ( empty( $location_array ) ) {
-			return $html;
+			return $html . '<!-- data-error="No location found in default_img" -->';
 		}
 
 		$location_array = array_shift( $location_array );
 		if ( ! isset( $location_array->default_img ) || empty( $location_array->default_img ) ) {
-			return $html;
+			return $html . '<!-- data-error="No default_img attribute in json" -->';
 		}
 
-		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $attr );
+		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $this->args );
 		$img_path     = $default_path . $location_array->default_img;
 
-		if ( ! is_file( get_stylesheet_directory() . $img_path ) ) {
-			return $html;
+		if ( ! is_readable( get_stylesheet_directory() . $img_path ) ) {
+			return $html . '<!-- data-error="Default img not exists or not readable" -->';
 		}
 
 		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
-		$classes[] = isset( $attr['class'] ) ? $attr['class'] : '';
+		$classes[] = isset( $attr['class'] ) ? $this->args['class'] : '';
 
 		$classes[] = 'lazyload';
 
-		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '"/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '">';
+		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '" alt=""/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '" alt="">';
 	}
 }

@@ -31,9 +31,3 @@ class ARI_Plugin{
 		return false;
 	}
 }
-
-
-
-if( has_post_thumbnail() ){
-	the_post_thumbnail( 'thumbnail', array( 'data-location' => 'news' ) );
-}

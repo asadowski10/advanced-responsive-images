@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.0 - 3 Jan 2018
+- Breaking changes : use post_thumbnail_html filter to render HTML not get_attributes
+- Fix empty alt for W3C
+- Remove src on source element, use srcset
+
 ## 2.0.5 - 18 Dec 2017
 - Check data-location exists on post_thumbnail_html filter
 
