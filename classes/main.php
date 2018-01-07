@@ -1,4 +1,5 @@
 <?php
+
 namespace ARI;
 
 use ARI\Image_Locations;
@@ -23,7 +24,7 @@ class Main {
 
 	protected function init() {
 		add_action( 'init', array( $this, 'init_translations' ) );
-		add_filter( 'wp_get_attachment_image_attributes', array( $this, 'get_attributes' ), 10, 2 );
+		add_filter( 'post_thumbnail_html', array( $this, 'post_thumbnail_html' ), 10, 5 );
 
 		// Override the calculated image sizes
 		add_filter( 'wp_calculate_image_sizes', '__return_false', PHP_INT_MAX );
@@ -56,28 +57,27 @@ class Main {
 	}
 
 	/**
-	 * @param array $args
-	 * @param \WP_Post $attachment
+	 * @param $html
+	 * @param $post_id
+	 * @param $post_thumbnail_id
+	 * @param $size
+	 * @param $attr
 	 *
-	 * @return array
+	 * @return string HTML of img
 	 * @author Alexandre Sadowski
 	 */
-	public function get_attributes( $args = array(), \WP_Post $attachment ) {
-		if ( ! isset( $args['data-location'] ) ) {
-			$args['data-location'] = 'No location filled in';
-
-			return $args;
+	public function post_thumbnail_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
+		if ( ! isset( $attr['data-location'] ) ) {
+			return $html . '<!-- data-error="No location found in attr" -->';
 		}
 
 		/**
 		 * @var $locations Image_Locations
 		 */
 		$locations      = Image_Locations::get_instance();
-		$location_array = $locations->get_location( $args['data-location'] );
+		$location_array = $locations->get_location( $attr['data-location'] );
 		if ( empty( $location_array ) ) {
-			$args['data-location'] = 'No location found in source file';
-
-			return $args;
+			return $html . '<!-- data-error="No location found in source file" -->';
 		}
 
 		/**
@@ -85,16 +85,18 @@ class Main {
 		 */
 		$mode = Modes::get_instance();
 		try {
-			$_mode_instance = $mode->get_mode( $args );
+			$_mode_instance = $mode->get_mode( $attr );
 			if ( false === $_mode_instance ) {
-				return $args;
+				return $html . '<!-- data-error="No responsive mode found" -->';
 			}
-			$_mode_instance->set_attachment_id( $attachment->ID );
-			$_mode_instance->add_filters();
+
+			$_mode_instance->set_attachment_id( $post_thumbnail_id );
+
+			return $_mode_instance->render_image( $html );
 		} catch ( \Exception $e ) {
-			$args['data-location'] = $e->getMessage();
+			$attr['data-location'] = $e->getMessage();
 		}
 
-		return $args;
+		return $html . '<!-- data-error="No render" -->';
 	}
 }

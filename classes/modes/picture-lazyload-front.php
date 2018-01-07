@@ -56,17 +56,6 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 	}
 
 	/**
-	 * @author Alexandre Sadowski
-	 */
-	public function add_filters() {
-		if ( ! isset( $this->args['data-location'] ) ) {
-			return $this->args;
-		}
-
-		return $this->render_image();
-	}
-
-	/**
 	 * @param string $html
 	 *
 	 * @author Alexandre Sadowski

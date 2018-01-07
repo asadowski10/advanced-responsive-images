@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.1 - 7 Jan 2018
+- Remove add_filter() method in interface
+- Fix error on main.php file using filter post_thumbnail_html
+
 ## 3.0.0 - 3 Jan 2018
 - Breaking changes : use post_thumbnail_html filter to render HTML not get_attributes
 - Fix empty alt for W3C

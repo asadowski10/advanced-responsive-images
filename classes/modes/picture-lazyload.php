@@ -50,12 +50,6 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	}
 
 	/**
-	 * @author Alexandre Sadowski
-	 */
-	public function add_filters() {
-	}
-
-	/**
 	 * @param string $html
 	 *
 	 * @author Alexandre Sadowski
