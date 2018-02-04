@@ -14,7 +14,7 @@ use ARI\Image_Sizes;
  *      - %%attributes%% : composed of classes and alt for default img
  *      - %%sources%% : list of sources composed of image sizes
  *      - %%img-617-333%% : exemple of image size to replace by URL
- *      - %%srcgif%% : 
+ *      - %%srcgif%% :
  *      - %%data-location%% : info of current location for template
  *
  * @package ARI\Modes
