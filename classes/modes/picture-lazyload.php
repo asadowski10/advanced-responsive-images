@@ -192,7 +192,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 */
 	public function default_img( $html = '' ) {
 		if ( ! isset( $this->args['data-location'] ) ) {
-			return $html . '<!-- data-error="No data-location found in default_img" -->';
+			return $html . '<!-- data-error="No data-location found in arguments" -->';
 		}
 
 		/**
@@ -201,19 +201,19 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$locations      = Image_Locations::get_instance();
 		$location_array = $locations->get_location( $this->args['data-location'] );
 		if ( empty( $location_array ) ) {
-			return $html . '<!-- data-error="No location found in default_img" -->';
+			return $html . '<!-- data-error="Location ' . $this->args['data-location'] . ' not found in image-locations file" -->';
 		}
 
 		$location_array = array_shift( $location_array );
 		if ( ! isset( $location_array->default_img ) || empty( $location_array->default_img ) ) {
-			return $html . '<!-- data-error="No default_img attribute in json" -->';
+			return $html . '<!-- data-error="No default_img ( ' . $location_array->default_img . ' ) attribute in json for location : ' . $this->args['data-location'] . '" -->';
 		}
 
 		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $this->args );
 		$img_path     = $default_path . $location_array->default_img;
 
 		if ( ! is_readable( get_stylesheet_directory() . $img_path ) ) {
-			return $html . '<!-- data-error="Default img not exists or not readable" -->';
+			return $html . '<!-- data-error="Default img (' . $location_array->default_img . ') not exists or not readable" -->';
 		}
 
 		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
@@ -221,6 +221,6 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 
 		$classes[] = 'lazyload';
 
-		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '" alt=""/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '" alt="">';
+		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '" alt=""/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '" alt="" data-location="' . $this->args['data-location'] . '">';
 	}
 }
