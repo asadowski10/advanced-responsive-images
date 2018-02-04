@@ -68,7 +68,7 @@ class Main {
 	 */
 	public function post_thumbnail_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
 		if ( ! isset( $attr['data-location'] ) ) {
-			return $html . '<!-- data-error="No location found in attr" -->';
+			return $html . '<!-- data-error="No data-location found in arguments" -->';
 		}
 
 		/**
@@ -77,7 +77,7 @@ class Main {
 		$locations      = Image_Locations::get_instance();
 		$location_array = $locations->get_location( $attr['data-location'] );
 		if ( empty( $location_array ) ) {
-			return $html . '<!-- data-error="No location found in source file" -->';
+			return $html . '<!-- data-error="Location ' . $this->args['data-location'] . ' not found in image-locations file" -->';
 		}
 
 		/**
@@ -87,7 +87,7 @@ class Main {
 		try {
 			$_mode_instance = $mode->get_mode( $attr );
 			if ( false === $_mode_instance ) {
-				return $html . '<!-- data-error="No responsive mode found" -->';
+				return $html . '<!-- data-error="No mode found" -->';
 			}
 
 			$_mode_instance->set_attachment_id( $post_thumbnail_id );
@@ -97,6 +97,6 @@ class Main {
 			$attr['data-location'] = $e->getMessage();
 		}
 
-		return $html . '<!-- data-error="No render" -->';
+		return $html . '<!-- data-error="Error to render image, manual debug is needed" -->';
 	}
 }
