@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.2 - 22 Fev 2018
+- Improve helpers for debug
+
 ## 3.0.1 - 7 Jan 2018
 - Remove add_filter() method in interface
 - Fix error on main.php file using filter post_thumbnail_html
