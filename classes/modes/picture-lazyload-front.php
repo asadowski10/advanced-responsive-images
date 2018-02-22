@@ -51,10 +51,6 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$this->attachment_id = (int) $id;
 	}
 
-	public function set_img_name( $size_or_img_name ) {
-		$this->size_or_img_name = $size_or_img_name;
-	}
-
 	/**
 	 * @param string $html
 	 *
