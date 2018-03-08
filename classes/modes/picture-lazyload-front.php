@@ -71,6 +71,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$check_tpl = $this->check_tpl( $location_array );
 		if ( ! is_array( $check_tpl ) ) {
 			echo $check_tpl;
+			return;
 		}
 
 		$img_size = Image_Sizes::get_instance();
