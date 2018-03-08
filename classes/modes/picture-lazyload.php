@@ -78,7 +78,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$location_content = $check_tpl['location_content'];
 		$main_content     = $check_tpl['main_content'];
 
-		$classes        = isset( $this->args['classes'] ) ? array( $this->args['classes'] ) : [];
+		$classes        = isset( $this->args['class'] ) ? array( $this->args['class'] ) : [];
 		$location_array = reset( $location_array );
 		foreach ( $location_array->srcsets as $location ) {
 			if ( ! isset( $location->size ) || empty( $location->size ) ) {
