@@ -128,7 +128,11 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
-		echo str_replace( [ '%%srcset%%','%%srcgif%%' ], ['srcset="' . ARI_PIXEL . '"', 'src="' . ARI_PIXEL . '"'], $content_with_attributes );
+		echo str_replace( [ '%%srcset%%', '%%srcgif%%', '%%data-location%%' ], [
+			'srcset="' . ARI_PIXEL . '"',
+			'src="' . ARI_PIXEL . '"',
+			'<!-- data-location="' . $this->args['data-location'] . '" -->'
+		], $content_with_attributes );
 	}
 
 	/**
