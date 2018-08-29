@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.6 - 29 Aug 2018
+- Fix url with empty space on front BFF 
+
 ## 3.0.2 - 22 Fev 2018
 - Improve helpers for debug
 

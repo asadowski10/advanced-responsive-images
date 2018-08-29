@@ -32,12 +32,12 @@ abstract class Mode {
 	protected function get_attachment_image_src( $size_or_img_name = 'thumbnail', $image_size = '' ) {
 		$is_img = $this->is_size_or_img( $size_or_img_name );
 		if ( true === $is_img ) {
-			return $this->get_file( BEA_IMG_SAMPLE_DIR . $size_or_img_name, $image_size );
+			return urlencode( $this->get_file( BEA_IMG_SAMPLE_DIR . $size_or_img_name, $image_size ) );
 		}
 
 		$img_url = $this->get_random_sample_img_url( $size_or_img_name );
 
-		return $this->get_timthumb_url( $img_url, $image_size );
+		return urlencode( $this->get_timthumb_url( $img_url, $image_size ) );
 	}
 
 	/*
