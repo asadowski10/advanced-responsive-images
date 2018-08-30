@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.7 - 30 Aug 2018
+- Error with urlencode for empty space on BFF 
+
 ## 3.0.6 - 29 Aug 2018
 - Fix url with empty space on front BFF 
 

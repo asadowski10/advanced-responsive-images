@@ -32,12 +32,12 @@ abstract class Mode {
 	protected function get_attachment_image_src( $size_or_img_name = 'thumbnail', $image_size = '' ) {
 		$is_img = $this->is_size_or_img( $size_or_img_name );
 		if ( true === $is_img ) {
-			return urlencode( $this->get_file( BEA_IMG_SAMPLE_DIR . $size_or_img_name, $image_size ) );
+			return $this->get_file( BEA_IMG_SAMPLE_DIR . $size_or_img_name, $image_size );
 		}
 
 		$img_url = $this->get_random_sample_img_url( $size_or_img_name );
 
-		return urlencode( $this->get_timthumb_url( $img_url, $image_size ) );
+		return $this->get_timthumb_url( $img_url, $image_size );
 	}
 
 	/*
@@ -90,6 +90,7 @@ abstract class Mode {
 	 * @return string
 	 */
 	protected function get_timthumb_url( $path_img, $image_size = null ) {
+		$path_img = urlencode( $path_img );
 		if ( ! empty( $image_size ) && isset( $image_size['width'] ) ) {
 			return get_full_url( $_SERVER, true ) . 'functions/vendor/timthumb.php?src=' . $path_img . '&h=' . $image_size['height'] . '&w=' . $image_size['width'] . '&zc=' . (int) $image_size['crop'];
 		} else {
