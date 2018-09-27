@@ -157,7 +157,7 @@ class Lazysize extends Mode implements Mode_Interface {
 			return $html;
 		}
 
-		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/assets/img/default/', $attr );
+		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/src/img/default/', $attr );
 		$img_path     = $default_path . $location_array->default_img;
 
 		if ( ! is_file( get_stylesheet_directory() . $img_path ) ) {

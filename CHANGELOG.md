@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.8 - 27 Sep 2018
+- Update ari_responsive_image_default_img_path filter to compat with BFF
+
 ## 3.0.7 - 30 Aug 2018
 - Error with urlencode for empty space on BFF 
 
