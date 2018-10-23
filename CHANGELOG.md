@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.0.9 - 23 Oct 2018
+- Update ari_responsive_image_default_img_name filter to allow modify default img
+- Fix notice on main class
+
 ## 3.0.8 - 27 Sep 2018
 - Update ari_responsive_image_default_img_path filter to compat with BFF
 

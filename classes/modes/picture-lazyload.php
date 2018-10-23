@@ -220,11 +220,12 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $html . '<!-- data-error="No default_img ( ' . $location_array->default_img . ' ) attribute in json for location : ' . $this->args['data-location'] . '" -->';
 		}
 
-		$default_path = apply_filters( 'ari_responsive_image_default_img_path', '/src/img/default/', $this->args );
-		$img_path     = $default_path . $location_array->default_img;
+		$default_path     = apply_filters( 'ari_responsive_image_default_img_path', '/src/img/default/', $this->args );
+		$img_default_name = apply_filters( 'ari_responsive_image_default_img_name', $location_array->default_img, $this->args );
+		$img_path         = $default_path . $img_default_name;
 
 		if ( ! is_readable( get_stylesheet_directory() . $img_path ) ) {
-			return $html . '<!-- data-error="Default img (' . $location_array->default_img . ') not exists or not readable" -->';
+			return $html . '<!-- data-error="Default img (' . $img_default_name  . ') not exists or not readable" -->';
 		}
 
 		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );

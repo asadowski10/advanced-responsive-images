@@ -77,7 +77,7 @@ class Main {
 		$locations      = Image_Locations::get_instance();
 		$location_array = $locations->get_location( $attr['data-location'] );
 		if ( empty( $location_array ) ) {
-			return $html . '<!-- data-error="Location ' . $this->args['data-location'] . ' not found in image-locations file" -->';
+			return $html . '<!-- data-error="Location ' . $attr['data-location'] . ' not found in image-locations file" -->';
 		}
 
 		/**
