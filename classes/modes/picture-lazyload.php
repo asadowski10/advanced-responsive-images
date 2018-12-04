@@ -229,7 +229,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		}
 
 		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
-		$classes[] = isset( $attr['class'] ) ? $this->args['class'] : '';
+		$classes[] = isset( $this->args['class'] ) ? $this->args['class'] : '';
 
 		$classes[] = 'lazyload';
 
