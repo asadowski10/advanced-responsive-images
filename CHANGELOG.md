@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.11 - 2 May 2019
+- Fix "alt" in picture-lazyload-front mode
+
 ## 3.0.10 - 4 Dec 2018
 - Fix CSS class for default img
 

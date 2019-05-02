@@ -81,6 +81,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$main_content     = $check_tpl['main_content'];
 
 		$classes        = array( $this->args['class'] );
+		$alt            = ! empty( $this->args['alt'] ) ? 'alt="' . $this->args['alt'] . '"' : 'alt=""';
 		$location_array = reset( $location_array );
 		foreach ( $location_array->srcsets as $location ) {
 			if ( ! isset( $location->size ) || empty( $location->size ) ) {
@@ -124,7 +125,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$classes = implode( ' ', $classes );
 
 		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '"';
-		$attributes              = $attributes . ' alt=""';
+		$attributes              = $attributes              = $attributes . ' '. $alt;
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
