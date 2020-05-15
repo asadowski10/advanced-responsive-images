@@ -13,7 +13,7 @@ if ( ! function_exists( 'bea_get_attachment_image' ) ) {
 		$locations      = \ARI\Image_Locations::get_instance();
 		$location_array = $locations->get_location( $attr['data-location'] );
 		if ( empty( $location_array ) ) {
-			$args['data-location'] = 'No location found in source file';
+			$attr['data-location'] = 'No location found in source file or parse_error in json location file';
 
 			return wp_get_attachment_image( $attachment_id, $size, $icon, $attr );
 		}
