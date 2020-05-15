@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.12 - 15 May 2020
+- Fix $attr in bea_get_attachment_image, update error message
+
 ## 3.0.11 - 2 May 2019
 - Fix "alt" in picture-lazyload-front mode
 
