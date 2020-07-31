@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.13 - 31 July 2020
+- Load image size generation on plugins_loaded thanks to @Rahe for this pull request
+
 ## 3.0.12 - 15 May 2020
 - Fix $attr in bea_get_attachment_image, update error message
 
