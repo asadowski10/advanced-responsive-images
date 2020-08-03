@@ -1,7 +1,8 @@
 # Changelog
 
-## 3.0.14 - 31 July 2020
-- Deactive "big image size threshold" 
+## 3.0.14 - 3 August 2020
+- Deactive "big image size threshold"
+- Add compatibily with native image generation ( without WP Thumb )
 
 ## 3.0.13 - 31 July 2020
 - Load image size generation on plugins_loaded thanks to @Rahe for this pull request

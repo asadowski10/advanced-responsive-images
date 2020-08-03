@@ -26,17 +26,19 @@ class Main {
 		add_action( 'init', array( $this, 'init_translations' ) );
 		add_filter( 'post_thumbnail_html', array( $this, 'post_thumbnail_html' ), 10, 5 );
 
-		// Override the calculated image sizes
-		add_filter( 'wp_calculate_image_sizes', '__return_false', PHP_INT_MAX );
+		if ( function_exists( 'wpthumb' ) ) {
+			// Override the calculated image sizes
+			add_filter( 'wp_calculate_image_sizes', '__return_false', PHP_INT_MAX );
 
-		// Override the calculated image sources
-		add_filter( 'wp_calculate_image_srcset', '__return_false', PHP_INT_MAX );
+			// Override the calculated image sources
+			add_filter( 'wp_calculate_image_srcset', '__return_false', PHP_INT_MAX );
 
-		// Remove the reponsive stuff from the content
-		remove_filter( 'the_content', 'wp_make_content_images_responsive' );
+			// Remove the reponsive stuff from the content
+			remove_filter( 'the_content', 'wp_make_content_images_responsive' );
 
-		// Disable the "BIG image" threshold value
-		add_filter( 'big_image_size_threshold', '__return_false' );
+			// Disable the "BIG image" threshold value
+			add_filter( 'big_image_size_threshold', '__return_false' );
+		}
 
 	}
 
