@@ -93,7 +93,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			 * @var $img_size Image_Sizes
 			 */
 			$imgsize = function_exists( 'wp_thumb' ) ? (array) $img_size->get_image_size( $location->size ) : $location->size;
-			$img = wp_get_attachment_image_src( $this->attachment_id, $imgsize );
+			$img     = wp_get_attachment_image_src( $this->attachment_id, $imgsize );
 			if ( empty( $img ) ) {
 				continue;
 			}
@@ -113,7 +113,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		// Add default img url
 		if ( isset( $location_array->img_base ) && ! empty( $location_array->img_base ) ) {
 			$imgsizedefault = function_exists( 'wp_thumb' ) ? (array) $img_size->get_image_size( $location_array->img_base ) : $location_array->img_base;
-			$default_img = wp_get_attachment_image_src( $this->attachment_id, $imgsizedefault, false );
+			$default_img    = wp_get_attachment_image_src( $this->attachment_id, $imgsizedefault, false );
 		} else {
 			$default_img = wp_get_attachment_image_src( $this->attachment_id, 'thumbnail', false );
 		}
@@ -126,7 +126,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$content_with_sources = str_replace( '%%sources%%', $location_content, $main_content );
 
 		// Add all attributes : classes, alt...
-		$alt     = trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
+		$alt     = $this->get_alt_text();
 		$classes = implode( ' ', $classes );
 
 		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
@@ -227,7 +227,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$img_path         = $default_path . $img_default_name;
 
 		if ( ! is_readable( get_stylesheet_directory() . $img_path ) ) {
-			return $html . '<!-- data-error="Default img (' . $img_default_name  . ') not exists or not readable" -->';
+			return $html . '<!-- data-error="Default img (' . $img_default_name . ') not exists or not readable" -->';
 		}
 
 		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
@@ -236,5 +236,27 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$classes[] = 'lazyload';
 
 		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '" alt=""/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '" alt="" data-location="' . $this->args['data-location'] . '">';
+	}
+
+	/**
+	 * Generate alt text
+	 * Rules :
+	 *  - If "none" is set return an empty alt
+	 *  - If alt is set return it
+	 *  - If empty alt, generate it from WP
+	 *
+	 * @return string
+	 * @author Alexandre Sadowski
+	 */
+	private function get_alt_text() {
+		if ( empty( $this->args['alt'] ) ) {
+			return trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
+		}
+
+		if ( 'none' === $this->args['alt'] ) {
+			return '';
+		}
+
+		return $this->args['alt'];
 	}
 }

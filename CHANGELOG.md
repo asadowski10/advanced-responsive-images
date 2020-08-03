@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.15 - 3 August 2020
+- Support alt => "none" param to display an empty alt for a11y
+
 ## 3.0.14 - 3 August 2020
 - Deactive "big image size threshold"
 - Add compatibily with native image generation ( without WP Thumb )
