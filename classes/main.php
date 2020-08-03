@@ -34,6 +34,10 @@ class Main {
 
 		// Remove the reponsive stuff from the content
 		remove_filter( 'the_content', 'wp_make_content_images_responsive' );
+
+		// Disable the "BIG image" threshold value
+		add_filter( 'big_image_size_threshold', '__return_false' );
+
 	}
 
 	/**

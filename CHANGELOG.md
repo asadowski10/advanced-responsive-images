@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.14 - 31 July 2020
+- Deactive "big image size threshold" 
+
 ## 3.0.13 - 31 July 2020
 - Load image size generation on plugins_loaded thanks to @Rahe for this pull request
 
