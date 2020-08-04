@@ -29,8 +29,11 @@ class Image_Locations {
 		if ( ! is_file( ARI_JSON_DIR . 'image-locations.json' ) ) {
 			return false;
 		}
-		$file_content = file_get_contents( ARI_JSON_DIR . 'image-locations.json' );
-		$result       = json_decode( $file_content );
+		$handle = fopen(ARI_JSON_DIR . 'image-locations.json', 'r');
+		$contents = fread($handle, filesize(ARI_JSON_DIR . 'image-locations.json'));
+		fclose($handle);
+
+		$result       = json_decode( $contents );
 		if ( is_array( $result ) && ! empty( $result ) ) {
 			$this->image_locations = $result;
 		}
