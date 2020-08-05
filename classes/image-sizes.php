@@ -35,11 +35,12 @@ class Image_Sizes {
 		if ( ! is_file( ARI_JSON_DIR . 'image-sizes.json' ) ) {
 			return false;
 		}
-		$handle = fopen(ARI_JSON_DIR . 'image-locations.json', 'r');
-		$contents = fread($handle, filesize(ARI_JSON_DIR . 'image-locations.json'));
-		fclose($handle);
 
-		$result       = json_decode( $contents );
+		$handle   = fopen( ARI_JSON_DIR . 'image-sizes.json', 'r' );
+		$contents = fread( $handle, filesize( ARI_JSON_DIR . 'image-sizes.json' ) );
+		fclose( $handle );
+
+		$result = json_decode( $contents );
 		if ( is_array( $result ) && ! empty( $result ) ) {
 			$this->image_sizes = $result;
 		}
@@ -77,7 +78,7 @@ class Image_Sizes {
 	 * @author Alexandre Sadowski
 	 */
 	public function get_image_size( $location = '' ) {
-		if ( ! is_array( $this->image_sizes ) | empty( $this->image_sizes ) ) {
+		if ( ! is_array( $this->image_sizes ) || empty( $this->image_sizes ) ) {
 			return false;
 		}
 		foreach ( $this->image_sizes as $key => $value ) {

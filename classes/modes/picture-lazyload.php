@@ -171,7 +171,9 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $html . '<!-- data-error="Default tpl not exists or not readable (' . $main_tpl_name . ')" -->';
 		}
 
-		$main_content = file_get_contents( $main_tpl );
+		$handle       = fopen( $main_tpl, 'r' );
+		$main_content = fread( $handle, filesize( $main_tpl ) );
+		fclose( $handle );
 		if ( empty( $main_content ) ) {
 			return $html . '<!-- data-error="Empty default tpl : (' . $main_tpl_name . ')" -->';
 		}
@@ -183,7 +185,9 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $html . '<!-- data-error="Location tpl not exists or not readable (' . $this->args['data-location'] . ')" -->';
 		}
 
-		$location_content = file_get_contents( $location_tpl );
+		$handle           = fopen( $location_tpl, 'r' );
+		$location_content = fread( $handle, filesize( $location_tpl ) );
+		fclose( $handle );
 		if ( empty( $location_content ) ) {
 			return $html . '<!-- data-error="Empty location tpl : (' . $this->args['data-location'] . ')" -->';
 		}

@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.17 - 5 August 2020
+- Fix error on image-sizes called image-location.json
+- Replace some file_get_contents
+- Fix some condition
+- Delete class not used
+
 ## 3.0.16 - 4 August 2020
 - Use fopen/fread, not file_get_contents to parse json files
 

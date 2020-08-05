@@ -1,4 +1,5 @@
 <?php
+
 namespace ARI;
 
 /**
@@ -29,11 +30,11 @@ class Image_Locations {
 		if ( ! is_file( ARI_JSON_DIR . 'image-locations.json' ) ) {
 			return false;
 		}
-		$handle = fopen(ARI_JSON_DIR . 'image-locations.json', 'r');
-		$contents = fread($handle, filesize(ARI_JSON_DIR . 'image-locations.json'));
-		fclose($handle);
+		$handle   = fopen( ARI_JSON_DIR . 'image-locations.json', 'r' );
+		$contents = fread( $handle, filesize( ARI_JSON_DIR . 'image-locations.json' ) );
+		fclose( $handle );
 
-		$result       = json_decode( $contents );
+		$result = json_decode( $contents );
 		if ( is_array( $result ) && ! empty( $result ) ) {
 			$this->image_locations = $result;
 		}
@@ -48,7 +49,7 @@ class Image_Locations {
 	 * @author Alexandre Sadowski
 	 */
 	public function get_location( $location = '' ) {
-		if ( ! is_array( $this->image_locations ) | empty( $this->image_locations ) ) {
+		if ( ! is_array( $this->image_locations ) || empty( $this->image_locations ) ) {
 			return false;
 		}
 		foreach ( $this->image_locations as $key => $value ) {
