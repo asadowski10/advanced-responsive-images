@@ -92,7 +92,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			/**
 			 * @var $img_size Image_Sizes
 			 */
-			$imgsize = function_exists( 'wp_thumb' ) ? (array) $img_size->get_image_size( $location->size ) : $location->size;
+			$imgsize = function_exists( 'wpthumb' ) ? (array) $img_size->get_image_size( $location->size ) : $location->size;
 			$img     = wp_get_attachment_image_src( $this->attachment_id, $imgsize );
 			if ( empty( $img ) ) {
 				continue;
@@ -112,7 +112,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 
 		// Add default img url
 		if ( isset( $location_array->img_base ) && ! empty( $location_array->img_base ) ) {
-			$imgsizedefault = function_exists( 'wp_thumb' ) ? (array) $img_size->get_image_size( $location_array->img_base ) : $location_array->img_base;
+			$imgsizedefault = function_exists( 'wpthumb' ) ? (array) $img_size->get_image_size( $location_array->img_base ) : $location_array->img_base;
 			$default_img    = wp_get_attachment_image_src( $this->attachment_id, $imgsizedefault, false );
 		} else {
 			$default_img = wp_get_attachment_image_src( $this->attachment_id, 'thumbnail', false );

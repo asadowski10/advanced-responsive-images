@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.18 - 2 Sept 2020
+- Fix compat wpthumb
+
 ## 3.0.17 - 5 August 2020
 - Fix error on image-sizes called image-location.json
 - Replace some file_get_contents
