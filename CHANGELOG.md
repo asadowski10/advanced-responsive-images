@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.0.19 - 24 Nov 2020
+- Allow no height or width for TimThumb ( value = 0) in Picture Lazyload Front
+
 ## 3.0.18 - 2 Sept 2020
 - Fix compat wpthumb
 

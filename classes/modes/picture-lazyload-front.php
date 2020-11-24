@@ -50,9 +50,9 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 	public function set_attachment_id( $id ) {
 		$this->attachment_id = (int) $id;
 	}
-	
-	public function set_img_name( $size_or_img_name ) {	
-		$this->size_or_img_name = $size_or_img_name;	
+
+	public function set_img_name( $size_or_img_name ) {
+		$this->size_or_img_name = $size_or_img_name;
 	}
 
 	/**
@@ -81,7 +81,6 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$main_content     = $check_tpl['main_content'];
 
 		$classes        = array( $this->args['class'] );
-		$alt            = ! empty( $this->args['alt'] ) ? 'alt="' . $this->args['alt'] . '"' : 'alt=""';
 		$location_array = reset( $location_array );
 		foreach ( $location_array->srcsets as $location ) {
 			if ( ! isset( $location->size ) || empty( $location->size ) ) {
@@ -90,7 +89,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 			/**
 			 * @var $img_size Image_Sizes
 			 */
-			$img_url = $this->get_attachment_image_src( $this->size_or_img_name, (array) $img_size->get_image_size( $location->size ) );
+			$img_url = $this->get_attachment_image_src( $this->size_or_img_name, (array) $this->get_image_size( $img_size->get_image_size( $location->size ) ) );
 			if ( empty( $img_url ) ) {
 				continue;
 			}
@@ -109,7 +108,7 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 
 		// Add default img url
 		if ( isset( $location_array->img_base ) && ! empty( $location_array->img_base ) ) {
-			$default_img = $this->get_attachment_image_src( $this->size_or_img_name, (array) $img_size->get_image_size( $img_size ) );
+			$default_img = $this->get_attachment_image_src( $this->size_or_img_name, (array) $this->get_image_size( $img_size->get_image_size( $img_size ) ) );
 		} else {
 			$default_img = $this->get_attachment_image_src( $this->size_or_img_name, 'thumbnail' );
 		}
@@ -125,7 +124,8 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 		$classes = implode( ' ', $classes );
 
 		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '"';
-		$attributes              = $attributes              = $attributes . ' '. $alt;
+        $alt                     = $this->get_alt_text();
+		$attributes              = $attributes . ' alt="' . $alt . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
@@ -184,4 +184,48 @@ class Picture_Lazyload_Front extends Mode implements Mode_Interface {
 
 		return array( 'location_content' => $location_content, 'main_content' => $main_content );
 	}
+
+    /**
+     * Compat for Timthumb used in BeAPI/beapi-frontend-framework
+     *
+     * @param $img_size
+     *
+     * @author Alexandre Sadowski
+     */
+    private function get_image_size( $img_size ){
+        if( empty( $img_size ) ){
+            return false;
+        }
+
+        if( 9999 === (int)$img_size->width ) {
+            $img_size->width = 0;
+        }
+        if( 9999 === (int)$img_size->height ) {
+            $img_size->height = 0;
+        }
+
+        return $img_size;
+    }
+
+    /**
+     * Generate alt text
+     * Rules :
+     *  - If "none" is set return an empty alt
+     *  - If alt is set return it
+     *  - If empty alt, generate it from WP
+     *
+     * @return string
+     * @author Alexandre Sadowski
+     */
+    private function get_alt_text() {
+        if ( empty( $this->args['alt'] ) ) {
+            return trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
+        }
+
+        if ( 'none' === $this->args['alt'] ) {
+            return '';
+        }
+
+        return $this->args['alt'];
+    }
 }
