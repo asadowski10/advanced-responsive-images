@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.0 - 22 Fev 2021
+- Use new filter `wp_get_attachment_image` added `wp_get_attachment_image` in WordPress 5.6.0
+- Deprecated function `bea_get_attachment_image()`, use `wp_get_attachment_image()`
+
 ## 3.0.19 - 24 Nov 2020
 - Allow no height or width for TimThumb ( value = 0) in Picture Lazyload Front
 
