@@ -72,6 +72,12 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $check_tpl;
 		}
 
+		$found = false;
+		$data  = wp_cache_get( $this->attachment_id . '-' . $this->args['data-location'], '', false, $found );
+		if ( ! empty( $found ) ) {
+			return $data;
+		}
+
 		$img_size = Image_Sizes::get_instance();
 
 
@@ -133,12 +139,16 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		// Add pixel on all
-		return str_replace( [ '%%srcset%%', '%%srcgif%%', '%%data-location%%' ], [
+		$image = str_replace( [ '%%srcset%%', '%%srcgif%%', '%%data-location%%' ], [
 			'srcset="' . ARI_PIXEL . '"',
 			'src="' . ARI_PIXEL . '"',
 			'<!-- data-location="' . $this->args['data-location'] . '" -->',
 
 		], $content_with_attributes );
+
+		wp_cache_set( $this->attachment_id . '-' . $this->args['data-location'], $image, '' );
+
+		return $image;
 	}
 
 	/**
