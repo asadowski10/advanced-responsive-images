@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.2 - 31 August 2021
+- PHP 8.0 Compatibility : update Singleton, fix warning
+
 ## 3.1.1 - 25 Fev 2021
 - Add some object cache on image construct
 
