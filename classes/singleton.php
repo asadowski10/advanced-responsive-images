@@ -15,12 +15,12 @@ namespace ARI;
 trait Singleton {
 
 	/**
-	 * @var self
+	 * @var static
 	 */
 	protected static $instance;
 
 	/**
-	 * @return self
+	 * @return static
 	 */
 	final public static function get_instance() {
 		if ( is_null( self::$instance ) ) {
@@ -47,16 +47,36 @@ trait Singleton {
 	/**
 	 * prevent the instance from being cloned
 	 *
-	 * @return void
+	 * @throws \LogicException
 	 */
-	final private function __clone() {
+	final public function __clone() {
+		throw new \LogicException( 'A singleton must not be cloned!' );
+	}
+
+	/**
+	 * prevent from being serialized
+	 *
+	 * @throws \LogicException
+	 */
+	final public function __sleep() {
+		throw new \LogicException( 'A singleton must not be serialized!' );
 	}
 
 	/**
 	 * prevent from being unserialized
 	 *
+	 * @throws \LogicException
+	 */
+	final public function __wakeup() {
+		throw new \LogicException( 'A singleton must not be unserialized!' );
+	}
+
+	/**
+	 * Destruct your instance
+	 *
 	 * @return void
 	 */
-	final private function __wakeup() {
+	final public static function destroy() {
+		static::$instance = null;
 	}
 }
