@@ -138,13 +138,16 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
+		$caption = $this->get_caption();
+		$content_with_caption = str_replace( '%%caption%%', esc_html( $caption ), $content_with_attributes );
+
 		// Add pixel on all
 		$image = str_replace( [ '%%srcset%%', '%%srcgif%%', '%%data-location%%' ], [
 			'srcset="' . ARI_PIXEL . '"',
 			'src="' . ARI_PIXEL . '"',
 			'<!-- data-location="' . $this->args['data-location'] . '" -->',
 
-		], $content_with_attributes );
+		], $content_with_caption );
 
 		wp_cache_set( $this->attachment_id . '-' . $this->args['data-location'], $image, '' );
 
@@ -168,13 +171,16 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $html . '<!-- data-error="No srcsets found or not V2 JSON for location (' . $this->args['data-location'] . ')" -->';
 		}
 
+		$main_tpl_name = 'default-picture';
+		$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture.tpl';
+
 		//Check if default tpl is overloaded
 		if ( isset( $this->args['data-tpl'] ) && ! empty( $this->args['data-tpl'] ) ) {
 			$main_tpl_name = $this->args['data-tpl'];
 			$main_tpl      = ARI_JSON_DIR . 'tpl/' . $this->args['data-tpl'] . '.tpl';
-		} else {
-			$main_tpl_name = 'default-picture';
-			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture.tpl';
+		} elseif ( ( isset( $this->args['data-caption'] ) && '1' === $this->args['data-caption'] ) && ! empty( $this->get_caption() ) ) {
+			$main_tpl_name = 'default-picture-caption';
+			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-caption.tpl';
 		}
 
 		if ( ! is_readable( $main_tpl ) ) {
@@ -272,5 +278,16 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		}
 
 		return $this->args['alt'];
+	}
+
+	/**
+	 * Get caption of image
+	 *
+	 * @return mixed|void
+	 * @author Alexandre Sadowski
+	 */
+	private function get_caption() {
+		$legend = !empty( $this->args['caption'] ) ? $this->args['caption'] : wp_get_attachment_caption( $this->attachment_id );
+		return apply_filters( 'ari_responsive_image_caption', $legend );
 	}
 }

@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.3 - 1 Sept 2021
+- Add support of display caption
+- Add new filter `ari_responsive_image_caption` to modify caption
+
 ## 3.1.2 - 31 August 2021
 - PHP 8.0 Compatibility : update Singleton, fix warning
 
