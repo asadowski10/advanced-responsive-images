@@ -139,7 +139,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
 		$caption = $this->get_caption();
-		$content_with_caption = str_replace( '%%caption%%', esc_html( $caption ), $content_with_attributes );
+		$content_with_caption = str_replace( '%%caption%%', $caption, $content_with_attributes );
 
 		// Add pixel on all
 		$image = str_replace( [ '%%srcset%%', '%%srcgif%%', '%%data-location%%' ], [
@@ -178,7 +178,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		if ( isset( $this->args['data-tpl'] ) && ! empty( $this->args['data-tpl'] ) ) {
 			$main_tpl_name = $this->args['data-tpl'];
 			$main_tpl      = ARI_JSON_DIR . 'tpl/' . $this->args['data-tpl'] . '.tpl';
-		} elseif ( ( isset( $this->args['data-caption'] ) && '1' === $this->args['data-caption'] ) && ! empty( $this->get_caption() ) ) {
+		} elseif ( ( isset( $this->args['data-caption'] ) && ( '1' === $this->args['data-caption'] || true === $this->args['data-caption'] ) ) && ! empty( $this->get_caption() ) ) {
 			$main_tpl_name = 'default-picture-caption';
 			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-caption.tpl';
 		}
@@ -288,6 +288,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 */
 	private function get_caption() {
 		$legend = !empty( $this->args['caption'] ) ? $this->args['caption'] : wp_get_attachment_caption( $this->attachment_id );
-		return apply_filters( 'ari_responsive_image_caption', $legend );
+
+		return apply_filters( 'ari_responsive_image_caption', $legend, $this->attachment_id, $this->args );
 	}
 }

@@ -1,7 +1,11 @@
 <?php
 if ( ! function_exists( 'bea_get_attachment_image' ) ) {
 	function bea_get_attachment_image( $attachment_id, $size = 'thumbnail', $icon = false, $attr = [] ) {
-		_deprecated_function( __FUNCTION__, '3.1.0', 'wp_get_attachment_image()' );
+		global $wp_version;
+		if ( version_compare( $wp_version, '5.6', '>' ) ) {
+			_deprecated_function( __FUNCTION__, '3.1.0', 'wp_get_attachment_image()' );
+		}
+
 		if ( ! isset( $attr['data-location'] ) ) {
 			$attr['data-location'] = 'No location filled in';
 

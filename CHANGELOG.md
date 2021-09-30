@@ -1,5 +1,9 @@
 # Changelog
 
+## 3.1.4 - 24 Sept 2021
+- Update `ari_responsive_image_caption` filter to add attachment id and attachment attributes params
+- Fix depecrated_function with check WordPress version
+
 ## 3.1.3 - 1 Sept 2021
 - Add support of display caption
 - Add new filter `ari_responsive_image_caption` to modify caption
