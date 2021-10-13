@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.5 - 13 Oct 2021
+- Fix object cache key with different $args for the same image and location
+
 ## 3.1.4 - 24 Sept 2021
 - Update `ari_responsive_image_caption` filter to add attachment id and attachment attributes params
 - Fix depecrated_function with check WordPress version

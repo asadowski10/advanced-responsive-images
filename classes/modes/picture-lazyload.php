@@ -73,7 +73,8 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		}
 
 		$found = false;
-		$data  = wp_cache_get( $this->attachment_id . '-' . $this->args['data-location'], '', false, $found );
+		$key = md5( maybe_serialize( $this->args ) );
+		$data  = wp_cache_get( $this->attachment_id . '-' . $key, '', false, $found );
 		if ( ! empty( $found ) ) {
 			return $data;
 		}
@@ -149,7 +150,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 
 		], $content_with_caption );
 
-		wp_cache_set( $this->attachment_id . '-' . $this->args['data-location'], $image, '' );
+		wp_cache_set( $this->attachment_id . '-' . $key, $image, '' );
 
 		return $image;
 	}
