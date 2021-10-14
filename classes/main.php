@@ -101,6 +101,10 @@ class Main {
 	 * @author Alexandre Sadowski
 	 */
 	protected function attachment_html( $html, $attachment_id, $attr ){
+		if ( is_feed() ) {
+			return $html;
+		}
+
 		if ( ! isset( $attr['data-location'] ) ) {
 			return $html . '<!-- data-error="No data-location found in arguments" -->';
 		}

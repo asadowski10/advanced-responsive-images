@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.6 - 14 Oct 2021
+- Fix error in XML Feed
+
 ## 3.1.5 - 13 Oct 2021
 - Fix object cache key with different $args for the same image and location
 
