@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.7 - 31 Janv 2022
+- Add possibility to disable default placeholder for a location
+
 ## 3.1.6 - 14 Oct 2021
 - Fix error in XML Feed
 

@@ -225,6 +225,10 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @author Alexandre Sadowski
 	 */
 	public function default_img( $html = '' ) {
+		if ( isset( $this->args['placeholder'] ) && false === $this->args['placeholder'] ) {
+			return '';
+		}
+
 		if ( ! isset( $this->args['data-location'] ) ) {
 			return $html . '<!-- data-error="No data-location found in arguments" -->';
 		}
