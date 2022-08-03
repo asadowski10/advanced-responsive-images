@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.8 - 03 August 2022
+- Add compat for composer 2
+
 ## 3.1.7 - 31 Janv 2022
 - Add possibility to disable placeholder for a location
 
