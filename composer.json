@@ -22,7 +22,7 @@
     "source": "https://github.com/asadowski10/advanced-responsive-images/"
   },
   "require": {
-    "composer/installers": "~1.0",
+    "composer/installers": "^1.0|^2.0",
     "php": ">=5.4"
   },
   "suggest": {
