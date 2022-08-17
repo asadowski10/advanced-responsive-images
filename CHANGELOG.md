@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.9 - 17 August 2022
+- Add new filter `ari_responsive_image_alt` to modify alt image attribute
+
 ## 3.1.8 - 03 August 2022
 - Add compat for composer 2
 
