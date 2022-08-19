@@ -1,5 +1,8 @@
 # Changelog
 
+## 3.1.10 - 19 August 2022
+- Fix PHP Warning on alt image attribute
+
 ## 3.1.9 - 17 August 2022
 - Add new filter `ari_responsive_image_alt` to modify alt image attribute
 

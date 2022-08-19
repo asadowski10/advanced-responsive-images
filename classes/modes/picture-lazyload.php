@@ -274,11 +274,12 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	 * @author Alexandre Sadowski
 	 */
 	private function get_alt_text() {
-		$alt = $this->args['alt'];
 		if ( empty( $this->args['alt'] ) ) {
 			$alt = trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
 		} elseif ( 'none' === $this->args['alt'] ) {
-			return '';
+			$alt = '';
+		} else {
+			$alt = $this->args['alt'];
 		}
 
 		return apply_filters( 'ari_responsive_image_alt', $alt, $this->attachment_id, $this->args );
