@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.1 - 7 June 2023
+- Change default value ari_responsive_image_default_img_path to /dist/images
+
 ## 4.0.0 - 7 June 2023
 - Change default path for ARI_JSON_DIR to /assets/
 

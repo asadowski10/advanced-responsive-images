@@ -247,7 +247,7 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return $html . '<!-- data-error="No default_img ( ' . $location_array->default_img . ' ) attribute in json for location : ' . $this->args['data-location'] . '" -->';
 		}
 
-		$default_path     = apply_filters( 'ari_responsive_image_default_img_path', '/src/img/default/', $this->args );
+		$default_path     = apply_filters( 'ari_responsive_image_default_img_path', '/dist/images/', $this->args );
 		$img_default_name = apply_filters( 'ari_responsive_image_default_img_name', $location_array->default_img, $this->args );
 		$img_path         = $default_path . $img_default_name;
 
