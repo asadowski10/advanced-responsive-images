@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.0.0 - 7 June 2023
+- Change default path for ARI_JSON_DIR to /assets/
+
 ## 3.1.10 - 19 August 2022
 - Fix PHP Warning on alt image attribute
 
