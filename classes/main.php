@@ -41,6 +41,7 @@ class Main {
 			add_filter( 'big_image_size_threshold', '__return_false' );
 		}
 
+		add_action( 'attachment_updated', array( $this, 'attachment_updated' ) );
 	}
 
 	/**
@@ -136,5 +137,21 @@ class Main {
 		}
 
 		return $html . '<!-- data-error="Error to render image, manual debug is needed" -->';
+	}
+
+	/**
+	 * Flush group cache on update attachment
+	 *
+	 * @param int $post_id
+	 *
+	 * @return void
+	 * @author Alexandre Sadowski
+	 */
+	public function attachment_updated( $post_id ) {
+		if ( ! \wp_cache_supports( 'flush_group' ) ) {
+			return;
+		}
+
+		\wp_cache_flush_group( 'ari-' . $post_id );
 	}
 }
