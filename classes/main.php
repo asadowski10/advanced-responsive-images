@@ -142,14 +142,16 @@ class Main {
 	/**
 	 * Flush group cache on update attachment
 	 *
+	 * @param int $post_id
+	 * 
 	 * @return void
 	 * @author Alexandre Sadowski
 	 */
-	public function attachment_updated() {
+	public function attachment_updated( $post_id ) {
 		if ( ! \wp_cache_supports( 'flush_group' ) ) {
 			return;
 		}
 
-		\wp_cache_flush_group( 'ari-cache' );
+		\wp_cache_flush_group( 'ari-' . $post_id );
 	}
 }
