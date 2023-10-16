@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.0.2 - 16 Oct 2023
+- Improve cache with group key
+- Flush attachment group on update
+
 ## 4.0.1 - 7 June 2023
 - Change default value ari_responsive_image_default_img_path to /dist/images
 

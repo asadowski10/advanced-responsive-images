@@ -143,7 +143,7 @@ class Main {
 	 * Flush group cache on update attachment
 	 *
 	 * @param int $post_id
-	 * 
+	 *
 	 * @return void
 	 * @author Alexandre Sadowski
 	 */
