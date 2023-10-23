@@ -12,4 +12,6 @@ interface Mode_Interface {
 	public function set_args( $args );
 
 	public function set_attachment_id( $id );
+
+	public function default_img( $html = '' );
 }

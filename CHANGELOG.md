@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.0 - 23 Oct 2023
+- Refactoring code
+- Add new mode Picture to no lazyload images
+
 ## 4.0.2 - 16 Oct 2023
 - Improve cache with group key
 - Flush attachment group on update

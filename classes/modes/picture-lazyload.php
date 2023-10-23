@@ -24,12 +24,12 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 	/**
 	 * @var []
 	 */
-	private $args = array();
+	protected $args = array();
 
 	/**
 	 * @var int
 	 */
-	private $attachment_id = 0;
+	protected $attachment_id = 0;
 
 	/**
 	 *
@@ -67,9 +67,9 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$location_array = $locations->get_location( $this->args['data-location'] );
 
 		//check all tpl
-		$check_tpl = $this->check_tpl( $location_array, $html );
-		if ( ! is_array( $check_tpl ) ) {
-			return $check_tpl;
+		$check_tpl = $this->check_tpl( $location_array, $this, 'default-picture.tpl');
+		if ( is_wp_error( $check_tpl ) ) {
+			return $html . $check_tpl->get_error_message();
 		}
 
 		$found = false;
@@ -92,24 +92,13 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 				continue;
 			}
 
-			$image_size = (array) $img_size->get_image_size( $location->size );
-			if ( empty( $image_size ) ) {
-				trigger_error( 'Missing a image size declaration on BEA Images - ' . $location->size . ' for this location : ' . $this->args['data-location'], E_USER_WARNING );
-			}
-			/**
-			 * @var $img_size Image_Sizes
-			 */
-			$imgsize = function_exists( 'wpthumb' ) ? (array) $img_size->get_image_size( $location->size ) : $location->size;
-			$img     = wp_get_attachment_image_src( $this->attachment_id, $imgsize );
-			if ( empty( $img ) ) {
+			$img_url = $this->get_url_from_size( $img_size, $location->size, $this );
+			if ( null === $img_url ) {
 				continue;
 			}
 
-			// Verif SSL
-			$img[0] = ( function_exists( 'is_ssl' ) && is_ssl() ) ? str_replace( 'http://', 'https://', $img[0] ) : $img[0];
-
 			// Replace size in content
-			$location_content = str_replace( '%%' . $location->size . '%%', $img[0], $location_content );
+			$location_content = str_replace( '%%' . $location->size . '%%', $img_url, $location_content );
 
 			// Get classes for each size
 			if ( isset( $location->class ) && ! empty( $location->class ) ) {
@@ -133,13 +122,13 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		$content_with_sources = str_replace( '%%sources%%', $location_content, $main_content );
 
 		// Add all attributes : classes, alt...
-		$alt     = $this->get_alt_text();
+		$alt     = $this->get_alt_text( $this );
 		$classes = implode( ' ', $classes );
 
 		$attributes              = 'class="lazyload ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
-		$caption = $this->get_caption();
+		$caption = $this->get_caption( $this );
 		$content_with_caption = str_replace( '%%caption%%', $caption, $content_with_attributes );
 
 		// Add pixel on all
@@ -153,63 +142,6 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 		wp_cache_set( $this->attachment_id . '-' . $key, $image, 'ari-' . $this->attachment_id );
 
 		return $image;
-	}
-
-	/**
-	 * @param $location_array
-	 * @param $html
-	 *
-	 * @return array|mixed
-	 * @author Alexandre Sadowski
-	 */
-	private function check_tpl( $location_array, $html ) {
-		if ( ! is_array( $location_array ) ) {
-			return $html . '<!-- data-error="Location ' . $this->args['data-location'] . ' not found in image-locations file" -->';
-		}
-
-		$location_array = reset( $location_array );
-		if ( ! isset( $location_array->srcsets ) || empty( $location_array->srcsets ) ) {
-			return $html . '<!-- data-error="No srcsets found or not V2 JSON for location (' . $this->args['data-location'] . ')" -->';
-		}
-
-		$main_tpl_name = 'default-picture';
-		$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture.tpl';
-
-		//Check if default tpl is overloaded
-		if ( isset( $this->args['data-tpl'] ) && ! empty( $this->args['data-tpl'] ) ) {
-			$main_tpl_name = $this->args['data-tpl'];
-			$main_tpl      = ARI_JSON_DIR . 'tpl/' . $this->args['data-tpl'] . '.tpl';
-		} elseif ( ( isset( $this->args['data-caption'] ) && ( '1' === $this->args['data-caption'] || true === $this->args['data-caption'] ) ) && ! empty( $this->get_caption() ) ) {
-			$main_tpl_name = 'default-picture-caption';
-			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-caption.tpl';
-		}
-
-		if ( ! is_readable( $main_tpl ) ) {
-			return $html . '<!-- data-error="Default tpl not exists or not readable (' . $main_tpl_name . ')" -->';
-		}
-
-		$handle       = fopen( $main_tpl, 'r' );
-		$main_content = fread( $handle, filesize( $main_tpl ) );
-		fclose( $handle );
-		if ( empty( $main_content ) ) {
-			return $html . '<!-- data-error="Empty default tpl : (' . $main_tpl_name . ')" -->';
-		}
-
-		//Check if default tpl is overloaded
-		$location_tpl = ARI_JSON_DIR . 'tpl/' . $this->args['data-location'] . '.tpl';
-
-		if ( ! is_readable( $location_tpl ) ) {
-			return $html . '<!-- data-error="Location tpl not exists or not readable (' . $this->args['data-location'] . ')" -->';
-		}
-
-		$handle           = fopen( $location_tpl, 'r' );
-		$location_content = fread( $handle, filesize( $location_tpl ) );
-		fclose( $handle );
-		if ( empty( $location_content ) ) {
-			return $html . '<!-- data-error="Empty location tpl : (' . $this->args['data-location'] . ')" -->';
-		}
-
-		return array( 'location_content' => $location_content, 'main_content' => $main_content );
 	}
 
 	/**
@@ -229,71 +161,16 @@ class Picture_Lazyload extends Mode implements Mode_Interface {
 			return '';
 		}
 
-		if ( ! isset( $this->args['data-location'] ) ) {
-			return $html . '<!-- data-error="No data-location found in arguments" -->';
+		$img_path = $this->get_default_img_path( $this );
+		if ( is_wp_error( $img_path ) ) {
+			return $html . '<!-- data-error="' . $img_path->get_error_message() . '" -->';
 		}
 
-		/**
-		 * @var $locations Image_Locations
-		 */
-		$locations      = Image_Locations::get_instance();
-		$location_array = $locations->get_location( $this->args['data-location'] );
-		if ( empty( $location_array ) ) {
-			return $html . '<!-- data-error="Location ' . $this->args['data-location'] . ' not found in image-locations file" -->';
-		}
-
-		$location_array = array_shift( $location_array );
-		if ( ! isset( $location_array->default_img ) || empty( $location_array->default_img ) ) {
-			return $html . '<!-- data-error="No default_img ( ' . $location_array->default_img . ' ) attribute in json for location : ' . $this->args['data-location'] . '" -->';
-		}
-
-		$default_path     = apply_filters( 'ari_responsive_image_default_img_path', '/dist/images/', $this->args );
-		$img_default_name = apply_filters( 'ari_responsive_image_default_img_name', $location_array->default_img, $this->args );
-		$img_path         = $default_path . $img_default_name;
-
-		if ( ! is_readable( get_stylesheet_directory() . $img_path ) ) {
-			return $html . '<!-- data-error="Default img (' . $img_default_name . ') not exists or not readable" -->';
-		}
-
-		$classes   = array( 'attachment-thumbnail', 'wp-post-image' );
+		$classes   = array( 'attachment-post-thumbnail', 'size-post-thumbnail', 'wp-post-image' );
 		$classes[] = isset( $this->args['class'] ) ? $this->args['class'] : '';
 
 		$classes[] = 'lazyload';
 
 		return '<noscript><img src="' . get_stylesheet_directory_uri() . $img_path . '" alt=""/></noscript><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-srcset="' . get_stylesheet_directory_uri() . $img_path . '" class="' . implode( ' ', $classes ) . '" alt="" data-location="' . $this->args['data-location'] . '">';
-	}
-
-	/**
-	 * Generate alt text
-	 * Rules :
-	 *  - If "none" is set return an empty alt
-	 *  - If alt is set return it
-	 *  - If empty alt, generate it from WP
-	 *
-	 * @return string
-	 * @author Alexandre Sadowski
-	 */
-	private function get_alt_text() {
-		if ( empty( $this->args['alt'] ) ) {
-			$alt = trim( strip_tags( get_post_meta( $this->attachment_id, '_wp_attachment_image_alt', true ) ) );
-		} elseif ( 'none' === $this->args['alt'] ) {
-			$alt = '';
-		} else {
-			$alt = $this->args['alt'];
-		}
-
-		return apply_filters( 'ari_responsive_image_alt', $alt, $this->attachment_id, $this->args );
-	}
-
-	/**
-	 * Get caption of image
-	 *
-	 * @return mixed|void
-	 * @author Alexandre Sadowski
-	 */
-	private function get_caption() {
-		$legend = !empty( $this->args['caption'] ) ? $this->args['caption'] : wp_get_attachment_caption( $this->attachment_id );
-
-		return apply_filters( 'ari_responsive_image_caption', $legend, $this->attachment_id, $this->args );
 	}
 }

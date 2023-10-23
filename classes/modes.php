@@ -4,6 +4,7 @@ namespace ARI;
 
 use ARI\Modes\Lazysize;
 use ARI\Modes\Lazysize_Front;
+use ARI\Modes\Picture;
 use ARI\Modes\Srcset;
 use ARI\Modes\Srcset_Front;
 use ARI\Modes\Picture_Lazyload;
@@ -72,7 +73,13 @@ class Modes {
 
 				return $lazy_front;
 			case 'picture':
-				return false;
+				/**
+				 * @var $picture Picture
+				 */
+				$picture = Picture::get_instance();
+				$picture->set_args( $args );
+
+				return $picture;
 			case 'picture_lazyload':
 				/**
 				 * @var $picture_lazyload Picture_Lazyload
