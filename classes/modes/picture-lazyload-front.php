@@ -18,6 +18,10 @@ use ARI\Image_Sizes;
  * @package ARI\Modes
  */
 class Picture_Lazyload_Front extends Mode implements Mode_Interface {
+	/**
+	 * Use the trait
+	 */
+	use \ARI\Singleton;
 
 	/**
 	 * @var []

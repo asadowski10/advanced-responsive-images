@@ -10,10 +10,6 @@ use ARI\Image_Sizes;
  * @package ARI\Modes
  */
 abstract class Mode {
-	/**
-	 * Use the trait
-	 */
-	use \ARI\Singleton;
 
 	/**
 	 * @var int

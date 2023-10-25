@@ -1,8 +1,12 @@
 # Changelog
 
+## 4.1.1 - 25 Oct 2023
+- Fix bug on Singleton Mode
+
 ## 4.1.0 - 23 Oct 2023
 - Refactoring code
 - Add new mode Picture to no lazyload images
+- Minimum require PHP version to 7.4
 
 ## 4.0.2 - 16 Oct 2023
 - Improve cache with group key

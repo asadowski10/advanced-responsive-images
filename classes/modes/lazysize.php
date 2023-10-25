@@ -12,6 +12,11 @@ use ARI\Image_Sizes;
 class Lazysize extends Mode implements Mode_Interface {
 
 	/**
+	 * Use the trait
+	 */
+	use \ARI\Singleton;
+
+	/**
 	 * @var []
 	 */
 	private $args = array();

@@ -11,6 +11,10 @@ use ARI\Image_Sizes;
  * @package ARI\Modes
  */
 class Srcset extends Mode implements Mode_Interface {
+	/**
+	 * Use the trait
+	 */
+	use \ARI\Singleton;
 
 	/**
 	 * @var []
