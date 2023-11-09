@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.1.2 - 9 Nov 2023
+- Improve width, height to 'auto' on picture mode when crop is false
+
 ## 4.1.1 - 25 Oct 2023
 - Fix bug on Singleton Mode
 

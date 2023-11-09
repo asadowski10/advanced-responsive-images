@@ -125,8 +125,11 @@ class Picture extends Mode implements Mode_Interface {
 		$alt     = $this->get_alt_text( $this );
 		$classes = implode( ' ', $classes );
 
-		$width  = 'width="' . $first_location_img_size['width'] . '"';
-		$height = 'height="' . $first_location_img_size['height'] . '"';
+		$width_value = false === $first_location_img_size['crop'] && '9999' === $first_location_img_size['width'] ? 'auto' : $first_location_img_size['width'];
+		$height_value = false === $first_location_img_size['crop'] && '9999' === $first_location_img_size['height'] ? 'auto' : $first_location_img_size['height'];
+
+		$width  = 'width="' . $width_value . '"';
+		$height = 'height="' . $height_value . '"';
 
 		$attributes              = $width . ' ' . $height . ' class="priority ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
