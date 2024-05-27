@@ -263,6 +263,9 @@ abstract class Mode {
 		if ( isset( $mode->args['data-tpl'] ) && ! empty( $mode->args['data-tpl'] ) ) {
 			$main_tpl_name = $mode->args['data-tpl'];
 			$main_tpl      = ARI_JSON_DIR . 'tpl/' . $mode->args['data-tpl'] . '.tpl';
+		} elseif ( ( isset( $mode->args['data-mode'] ) && 'picture' === $mode->args['data-mode'] ) && ( isset( $mode->args['data-caption'] ) && ( '1' === $mode->args['data-caption'] || true === $mode->args['data-caption'] ) ) && ! empty( $this->get_caption( $mode ) ) ) {
+			$main_tpl_name = 'default-picture-nolazyload-caption';
+			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-nolazyload-caption.tpl';
 		} elseif ( ( isset( $mode->args['data-caption'] ) && ( '1' === $mode->args['data-caption'] || true === $mode->args['data-caption'] ) ) && ! empty( $this->get_caption( $mode ) ) ) {
 			$main_tpl_name = 'default-picture-caption';
 			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-caption.tpl';

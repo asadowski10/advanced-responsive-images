@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.0 - 27 May 2024
+- Allow caption in Picture mode : need te create default-picture-nolazyload-caption.tpl
+- Remove old modes for HTML frontend compat (not used)
+
 ## 4.1.2 - 9 Nov 2023
 - Improve width, height to 'auto' on picture mode when crop is false
 

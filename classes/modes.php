@@ -35,24 +35,12 @@ class Modes {
 			$mode = $args['data-mode'];
 		}
 
-		if ( defined( 'ARI_CONTEXT' ) && 'front' === ARI_CONTEXT ) {
-			$mode = $mode . '_front';
-		}
-
 		switch ( $mode ) {
 			case 'srcset':
 				/**
 				 * @var $srcset Srcset
 				 */
 				$srcset = Srcset::get_instance();
-				$srcset->set_args( $args );
-
-				return $srcset;
-			case 'srcset_front':
-				/**
-				 * @var $srcset Srcset
-				 */
-				$srcset = Srcset_Front::get_instance();
 				$srcset->set_args( $args );
 
 				return $srcset;
@@ -64,14 +52,6 @@ class Modes {
 				$lazy->set_args( $args );
 
 				return $lazy;
-			case 'lazysize_front':
-				/**
-				 * @var $lazy Lazysize
-				 */
-				$lazy_front = Lazysize_Front::get_instance();
-				$lazy_front->set_args( $args );
-
-				return $lazy_front;
 			case 'picture':
 				/**
 				 * @var $picture Picture
@@ -88,14 +68,6 @@ class Modes {
 				$picture_lazyload->set_args( $args );
 
 				return $picture_lazyload;
-			case 'picture_lazyload_front':
-				/**
-				 * @var $picture_lazyload Picture_Lazyload_Front
-				 */
-				$picture_lazyload_front = Picture_Lazyload_Front::get_instance();
-				$picture_lazyload_front->set_args( $args );
-
-				return $picture_lazyload_front;
 			default:
 				return false;
 		}

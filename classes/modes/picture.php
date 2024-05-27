@@ -134,12 +134,15 @@ class Picture extends Mode implements Mode_Interface {
 		$attributes              = $width . ' ' . $height . ' class="priority ' . esc_attr( $classes ) . '" alt="' . esc_attr( $alt ) . '"';
 		$content_with_attributes = str_replace( '%%attributes%%', $attributes, $content_with_sources );
 
+		$caption = $this->get_caption( $this );
+		$content_with_caption = str_replace( '%%caption%%', $caption, $content_with_attributes );
+
 		// Add pixel on all
 		$image = str_replace( [ '%%src%%', '%%data-location%%' ], [
 			'src="' . $main_img_url . '"',
 			'<!-- data-location="' . $this->args['data-location'] . '" -->',
 
-		], $content_with_attributes );
+		], $content_with_caption );
 
 		wp_cache_set( $this->attachment_id . '-' . $key, $image, '' );
 
