@@ -24,7 +24,6 @@ class Main {
 
 	protected function init() {
 		add_action( 'init', array( $this, 'init_translations' ) );
-		add_filter( 'post_thumbnail_html', array( $this, 'post_thumbnail_html' ), 10, 5 );
 		add_filter( 'wp_get_attachment_image', array( $this, 'wp_get_attachment_image' ), 10, 5 );
 
 		if ( function_exists( 'wpthumb' ) ) {
@@ -76,19 +75,6 @@ class Main {
 	 */
 	public function wp_get_attachment_image( $html, $attachment_id, $size, $icon, $attr ){
 		return $this->attachment_html( $html, $attachment_id, $attr );
-	}
-	/**
-	 * @param $html
-	 * @param $post_id
-	 * @param $post_thumbnail_id
-	 * @param $size
-	 * @param $attr
-	 *
-	 * @return string HTML of img
-	 * @author Alexandre Sadowski
-	 */
-	public function post_thumbnail_html( $html, $post_id, $post_thumbnail_id, $size, $attr ) {
-		return $this->attachment_html( $html, $post_thumbnail_id, $attr );
 	}
 
 	/**

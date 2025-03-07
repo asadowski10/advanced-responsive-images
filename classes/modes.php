@@ -3,12 +3,10 @@
 namespace ARI;
 
 use ARI\Modes\Lazysize;
-use ARI\Modes\Lazysize_Front;
 use ARI\Modes\Picture;
 use ARI\Modes\Srcset;
-use ARI\Modes\Srcset_Front;
 use ARI\Modes\Picture_Lazyload;
-use ARI\Modes\Picture_Lazyload_Front;
+use ARI\Modes\Native;
 
 /**
  * The purpose of the modes class is to return the final render
@@ -68,6 +66,14 @@ class Modes {
 				$picture_lazyload->set_args( $args );
 
 				return $picture_lazyload;
+			case 'native':
+				/**
+				 * @var $native_lazyload Native
+				 */
+				$native_lazyload = native::get_instance();
+				$native_lazyload->set_args( $args );
+
+				return $native_lazyload;
 			default:
 				return false;
 		}
