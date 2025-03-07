@@ -28,7 +28,7 @@ if ( ! defined( 'ARI_JSON_DIR' ) ) {
 }
 
 if ( ! defined( 'ARI_MODE' ) ) {
-	define( 'ARI_MODE', 'picture_lazyload' );
+	define( 'ARI_MODE', 'native' );
 }
 
 if ( ! defined( 'ARI_PIXEL' ) ) {
