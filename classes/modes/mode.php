@@ -271,32 +271,51 @@ abstract class Mode {
 			$main_tpl      = ARI_JSON_DIR . 'tpl/default-picture-caption.tpl';
 		}
 
-		if ( ! is_readable( $main_tpl ) ) {
-			return new \WP_Error( 'ari-error', "Default tpl not exists or not readable (' . $tpl_name . ')" );
-		}
-
-		$handle       = fopen( $main_tpl, 'r' );
-		$main_content = fread( $handle, filesize( $main_tpl ) );
-		fclose( $handle );
-		if ( empty( $main_content ) ) {
-			return new \WP_Error( 'ari-error', "Empty default tpl : (' . $tpl_name . ')" );
+		$main_content = $this->get_content( $main_tpl );
+		if ( is_wp_error( $main_content ) ) {
+			return $main_content;
 		}
 
 		//Check if default tpl is overloaded
 		$location_tpl = ARI_JSON_DIR . 'tpl/' . $mode->args['data-location'] . '.tpl';
 
-		if ( ! is_readable( $location_tpl ) ) {
-			return new \WP_Error( 'ari-error', "Location tpl not exists or not readable (' . $mode->args['data-location'] . ')" );
-		}
-
-		$handle           = fopen( $location_tpl, 'r' );
-		$location_content = fread( $handle, filesize( $location_tpl ) );
-		fclose( $handle );
-		if ( empty( $location_content ) ) {
-			return new \WP_Error( 'ari-error', "Empty location tpl : (' . $mode->args['data-location'] . ')" );
+		$location_content = $this->get_content( $location_tpl );
+		if ( is_wp_error( $location_content ) ) {
+			return $location_content;
 		}
 
 		return array( 'location_content' => $location_content, 'main_content' => $main_content );
 	}
 
+	/**
+	 * Get tpl file's content.
+	 *
+	 * @param string $path
+	 *
+	 * @return string|\WP_Error
+	 */
+	protected function get_content( $path ) {
+		static $content = [];
+
+		if ( isset( $content[ $path ] ) ) {
+			return $content[ $path ];
+		}
+
+		if ( ! is_readable( $path ) ) {
+			$content[ $path ] = new \WP_Error( 'ari-error', "Tpl file doesn't exists or is not readable (' . $path . ')" );
+
+			return $content[ $path ];
+		}
+
+		$tpl_content = file_get_contents( $path );
+		if ( empty( $tpl_content ) ) {
+			$content[ $path ] = new \WP_Error( 'ari-error', "Tpl file is empty (' . $path . ')" );
+
+			return $content[ $path ];
+		}
+
+		$content[ $path ] = $tpl_content;
+
+		return $content[ $path ];
+	}
 }
