@@ -1,5 +1,8 @@
 # Changelog
 
+## 4.2.2 - 17 Nov 2025
+- Allow native SRCSET markup in Gutenberg only in front-office
+
 ## 4.2.1 - 17 April 2025
 - Improve performance on check tpl : thanks to [@petitphp](https://github.com/petitphp)
 

@@ -27,7 +27,7 @@ class Main {
 		add_filter( 'post_thumbnail_html', array( $this, 'post_thumbnail_html' ), 10, 5 );
 		add_filter( 'wp_get_attachment_image', array( $this, 'wp_get_attachment_image' ), 10, 5 );
 
-		if ( function_exists( 'wpthumb' ) ) {
+		if ( function_exists( 'wpthumb' ) && is_admin() ) {
 			// Override the calculated image sizes
 			add_filter( 'wp_calculate_image_sizes', '__return_false', PHP_INT_MAX );
 
