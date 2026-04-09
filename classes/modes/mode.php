@@ -160,7 +160,7 @@ abstract class Mode {
 		/**
 		 * @var $img_size Image_Sizes
 		 */
-		$imgsize = function_exists( 'wpthumb' ) ? (array) $img_size->get_image_size( $size ) : $size;
+		$imgsize = $this->is_wpthumb() ? (array) $img_size->get_image_size( $size ) : $size;
 		$img_url = wp_get_attachment_image_url( $mode->attachment_id, $imgsize );
 		if ( empty( $img_url ) ) {
 			return null;
@@ -317,5 +317,24 @@ abstract class Mode {
 		$content[ $path ] = $tpl_content;
 
 		return $content[ $path ];
+	}
+
+	/**
+	 * Method to check if WP Thumb is activate on site & if the attachment is an image (exclude SVG)
+	 *
+	 * @return bool
+	 * @author Alexandre Sadowski
+	 */
+	protected function is_wpthumb() : bool {
+		if ( ! function_exists( 'wpthumb' ) ) {
+			return false;
+		}
+
+		$mime_type = get_post_mime_type( $this->attachment_id );
+		if ( str_contains( $mime_type, 'svg' ) ) {
+			return false;
+		}
+
+		return true;
 	}
 }

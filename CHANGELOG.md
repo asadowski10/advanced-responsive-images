@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.3 - 9 April 2026
+- Fix size format for SVG media
+- Minimum PHP 8.0
+
 ## 4.2.2 - 17 Nov 2025
 - Allow native SRCSET markup in Gutenberg only in front-office
 
